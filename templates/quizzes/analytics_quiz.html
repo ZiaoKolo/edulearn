@@ -1,0 +1,154 @@
+{# templates/quizzes/analytics_quiz.html #}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1>Analyse du Quiz: {{ quiz.title }}</h1>
+    
+    <div class="analytics-summary">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Statistiques Générales</h2>
+            </div>
+            <div class="card-body">
+                <p><strong>Score moyen:</strong> {{ avg_score|floatformat:1 }} / {{ quiz.max_possible_score }}</p>
+                <p><strong>Taux de complétion:</strong> {{ completion_rate|floatformat:1 }}% ({{ completed_students }} sur {{ total_students }} étudiants)</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="analytics-questions">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Performance par Question</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Question</th>
+                                <th>Type</th>
+                                <th>Taux de réussite</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for question_stat in question_stats %}
+                            <tr>
+                                <td>{{ question_stat.question.text|truncatechars:50 }}</td>
+                                <td>{{ question_stat.question.get_question_type_display }}</td>
+                                <td>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" width="{{ question_stat.success_rate }}%;">
+                                            {{ question_stat.success_rate|floatformat:1 }}%
+                                        </div>
+                                    </div>
+                                    <small>({{ question_stat.correct_count }} corrects sur {{ question_stat.total_attempts }})</small>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="analytics-results">
+        <div class="card">
+            <div class="card-header">
+                <h2>Résultats des étudiants</h2>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Étudiant</th>
+                                <th>Score</th>
+                                <th>Temps passé</th>
+                                <th>Date de complétion</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>{{ result.student.username }}</td>
+                                <td>
+                                    <div class="progress-container">
+                                        <div class="progress-bar" width="{% widthratio result.score result.max_score 100 %}%;">
+                                            {{ result.score }} / {{ result.max_score }} ({% widthratio result.score result.max_score 100 %}%)
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>{% if result.time_taken %}{{ result.time_taken_formatted }}{% else %}N/A{% endif %}</td>
+                                <td>{{ result.completed_at }}</td>
+                                <td>
+                                    <a href="{% url 'quizzes:quiz_result' quiz_id=quiz.id %}?student_id={{ result.student.id }}" class="btn btn-sm btn-primary">
+                                        Détails
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{% url 'quizzes:quiz_detail' quiz_id=quiz.id %}" class="btn btn-secondary">
+            Retour au quiz
+        </a>
+    </div>
+</div>
+
+<style>
+    /* CSS for progress bars */
+    .progress-container {
+        width: 100%;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        margin-bottom: 5px;
+    }
+    
+    .progress-bar {
+        height: 24px;
+        background-color: #4caf50;
+        border-radius: 4px;
+        color: white;
+        text-align: center;
+        line-height: 24px;
+        font-weight: bold;
+        transition: width 0.5s ease-in-out;
+        min-width: 30px; /* Minimum width to show percentage text */
+        position: relative;
+        overflow: visible;
+    }
+
+    /* Make sure low percentages still show text clearly */
+    .progress-bar[style*="width: 0%"],
+    .progress-bar[style*="width: 1%"],
+    .progress-bar[style*="width: 2%"],
+    .progress-bar[style*="width: 3%"],
+    .progress-bar[style*="width: 4%"],
+    .progress-bar[style*="width: 5%"],
+    .progress-bar[style*="width: 6%"],
+    .progress-bar[style*="width: 7%"],
+    .progress-bar[style*="width: 8%"],
+    .progress-bar[style*="width: 9%"],
+    .progress-bar[style*="width: 10%"] {
+        color: #333;
+    }
+    
+    .progress-bar[style*="width: 10%"]::after {
+        content: attr(data-text);
+        position: absolute;
+        right: -50px;
+        color: #333;
+    }
+</style>
+{% endblock %}

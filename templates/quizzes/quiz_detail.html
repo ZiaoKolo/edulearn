@@ -1,0 +1,84 @@
+{# templates/quizzes/quiz_detail.html #}
+{% extends 'quizzes/base_quiz.html' %}
+
+{% block quiz_title %}{{ quiz.title }}{% endblock %}
+
+{% block quiz_content %}
+<div class="quiz-detail-container">
+    <h1>{{ quiz.title }}</h1>
+    <div class="quiz-info">
+        <p>{{ quiz.description }}</p>
+        
+        {% if quiz.time_limit %}
+            <p><strong>Temps limite:</strong> {{ quiz.time_limit }} minutes</p>
+        {% endif %}
+        
+        <p><strong>Chapitre:</strong> 
+            {% if quiz.chapter %}
+                {{ quiz.chapter.title }}
+            {% else %}
+                Quiz général du cours
+            {% endif %}
+        </p>
+        
+        <p><strong>Nombre de questions:</strong> {{ quiz.questions.count }}</p>
+        <p><strong>Score total possible:</strong> {{ total_points }}</p>
+    </div>
+    
+    {% if user.is_teacher %}
+        <div class="teacher-actions">
+            <h3>Gestion du quiz</h3>
+            <div class="btn-group">
+                <a href="{% url 'quizzes:edit_quiz' quiz.id %}" class="btn btn-warning">Modifier le quiz</a>
+                <a href="{% url 'quizzes:add_question' quiz.id %}" class="btn btn-primary">Ajouter une question</a>
+                <a href="{% url 'quizzes:analytics_quiz' quiz.id %}" class="btn btn-info">Voir les statistiques</a>
+                <a href="{% url 'quizzes:delete_quiz' quiz.id %}" class="btn btn-danger" 
+                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce quiz?')">Supprimer le quiz</a>
+                <a href="{% url 'dashboard:assign_quiz' quiz.id %}" class="btn btn-primary">Assigner aux étudiants</a>
+                
+            </div>
+        </div>
+        
+        <div class="questions-list">
+            <h3>Questions</h3>
+            {% if quiz.questions.exists %}
+                {% for question in quiz.questions.all %}
+                    <div class="question-card">
+                        <div class="question-header">
+                            <h4>Question {{ question.order }}: {{ question.text }}</h4>
+                            <p><strong>Type:</strong> {{ question.get_question_type_display }}</p>
+                            <p><strong>Points:</strong> {{ question.points }}</p>
+                        </div>
+                        
+                        {% if question.question_type != 'text' %}
+                            <div class="choices-list">
+                                <h5>Choix possibles:</h5>
+                                <ul>
+                                    {% for choice in question.choices.all %}
+                                        <li>{{ choice.text }} {% if choice.is_correct %}<span class="correct-answer">(Correcte)</span>{% endif %}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="question-actions">
+                            <a href="{% url 'quizzes:edit_question' question.id %}" class="btn btn-sm btn-warning">Modifier la question</a>
+                            {% if question.question_type != 'text' %}
+                                <a href="{% url 'quizzes:edit_choices' question.id %}" class="btn btn-sm btn-info">Modifier les choix</a>
+                            {% endif %}
+                            <a href="{% url 'quizzes:delete_question' question.id %}" class="btn btn-sm btn-danger" 
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette question?')">Supprimer</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>Ce quiz ne contient pas encore de questions.</p>
+            {% endif %}
+        </div>
+    {% else %}
+        <div class="student-actions">
+            <a href="{% url 'quizzes:take_quiz' quiz.id %}" class="btn btn-primary">Démarrer le quiz</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

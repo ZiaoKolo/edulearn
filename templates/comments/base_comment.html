@@ -1,0 +1,91 @@
+{% load static %}
+
+<div class="comment {% if comment.parent %}comment-reply{% endif %}" id="comment-{{ comment.id }}">
+    <div class="comment-header">
+        <div class="comment-user">
+            {% if comment.user.profile_pic %}
+                <img src="{{ comment.user.profile_pic.url }}" alt="{{ comment.user.username }}" class="avatar-sm">
+            {% else %}
+                <img src="{% static 'images/default-avatar.png' %}" alt="{{ comment.user.username }}" class="avatar-sm">
+            {% endif %}
+            <span class="username">{{ comment.user.username }}</span>
+            <span class="comment-date">{{ comment.created_at|date:"d/m/Y H:i" }}</span>
+            {% if comment.updated_at > comment.created_at %}
+                <span class="comment-edited">(modifié)</span>
+            {% endif %}
+        </div>
+        
+        {% if user.is_authenticated %}
+            <div class="comment-actions">
+                <div class="comment-votes">
+                    {% with upvotes=comment.votes.filter.upvote.count downvotes=comment.votes.filter.downvote.count %}
+                        <button class="btn-vote upvote {% if user_vote == 'up' %}active{% endif %}" 
+                                data-comment-id="{{ comment.id }}" 
+                                data-vote-type="up">
+                            <i class="fas fa-arrow-up"></i>
+                            <span class="upvote-count">{{ upvotes }}</span>
+                        </button>
+                        <button class="btn-vote downvote {% if user_vote == 'down' %}active{% endif %}" 
+                                data-comment-id="{{ comment.id }}" 
+                                data-vote-type="down">
+                            <i class="fas fa-arrow-down"></i>
+                            <span class="downvote-count">{{ downvotes }}</span>
+                        </button>
+                    {% endwith %}
+                </div>
+                
+                <button class="btn-reply" data-comment-id="{{ comment.id }}">
+                    <i class="fas fa-reply"></i> Répondre
+                </button>
+                
+                {% if user == comment.user or user.is_admin_user %}
+                    <div class="dropdown">
+                        <button class="btn-more" id="dropdown-{{ comment.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-{{ comment.id }}">
+                            {% if user == comment.user %}
+                                <li>
+                                    <a class="dropdown-item btn-edit" href="{% url 'comments:edit_comment' comment.id %}">
+                                        <i class="fas fa-edit"></i> Modifier
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li>
+                                <a class="dropdown-item btn-delete" href="{% url 'comments:delete_comment' comment.id %}">
+                                    <i class="fas fa-trash"></i> Supprimer
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <div class="comment-body">
+        <p>{{ comment.text|linebreaks }}</p>
+    </div>
+    
+    <div class="reply-form-container" id="reply-form-{{ comment.id }}" style="display: none;">
+        <form action="{% url 'comments:add_comment' content_type object.id %}" method="post" class="reply-form">
+            {% csrf_token %}
+            <input type="hidden" name="parent_id" value="{{ comment.id }}">
+            <div class="form-group">
+                <textarea name="text" rows="2" class="form-control" placeholder="Écrivez votre réponse..."></textarea>
+            </div>
+            <div class="form-buttons">
+                <button type="button" class="btn btn-sm btn-secondary cancel-reply">Annuler</button>
+                <button type="submit" class="btn btn-sm btn-primary">Répondre</button>
+            </div>
+        </form>
+    </div>
+    
+    {% if comment.replies.exists %}
+        <div class="replies">
+            {% for reply in comment.replies.all %}
+                {% include "comments/base_comment.html" with comment=reply %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

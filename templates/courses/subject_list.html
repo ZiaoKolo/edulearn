@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Liste des matières{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h2 mb-0">Gestion des matières</h1>
+            <p class="text-muted">Administration des matières disponibles sur la plateforme</p>
+        </div>
+        <div class="col-auto">
+            <a href="{% url 'courses:subject_create' %}" class="btn btn-primary">
+                <i class="fas fa-plus mr-2"></i>Nouvelle matière
+            </a>
+        </div>
+    </div>
+
+    {% if messages %}
+        <div class="row">
+            <div class="col">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="card-header bg-light">
+            <h2 class="h5 mb-0">Liste des matières</h2>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-striped mb-0">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Description</th>
+                            <th>Nombre de cours</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject in subjects %}
+                            <tr>
+                                <td>{{ subject.name }}</td>
+                                <td>{{ subject.description|truncatechars:100 }}</td>
+                                <td>{{ subject.total_courses }}</td>
+                                <td class="text-center">
+                                    <a href="{% url 'courses:subject_edit' subject.id %}" class="btn btn-sm btn-outline-primary" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{% url 'courses:subject_delete' subject.id %}" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4">
+                                    <div class="text-muted">
+                                        <i class="fas fa-info-circle mr-2"></i>Aucune matière disponible
+                                    </div>
+                                    <a href="{% url 'courses:subject_create' %}" class="btn btn-sm btn-primary mt-3">
+                                        Créer une première matière
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

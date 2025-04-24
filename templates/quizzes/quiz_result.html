@@ -1,0 +1,92 @@
+{# templates/quizzes/quiz_result.html #}
+{% extends 'quizzes/base_quiz.html' %}
+
+{% block quiz_title %}Résultats - {{ quiz_result.quiz.title }}{% endblock %}
+
+{% block quiz_content %}
+<div class="quiz-result-container">
+    <h1>Résultats du Quiz: {{ quiz_result.quiz.title }}</h1>
+    
+    <div class="result-summary">
+        <div class="score-box">
+            <h2>Score Final</h2>
+            <div class="score">{{ quiz_result.score }} / {{ quiz_result.max_score }}</div>
+            <div class="percentage">{{ percentage }}%</div>
+        </div>
+        
+        <div class="result-details">
+            <p><strong>Date de complétion:</strong> {{ quiz_result.completed_at }}</p>
+            {% if quiz_result.time_taken %}
+                <p><strong>Temps utilisé:</strong> {{ minutes }}:{{ seconds }}</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="answer-review">
+        <h2>Révision des réponses</h2>
+        
+        {% for answer in answers %}
+            <div class="question-result {% if answer.is_correct %}correct{% else %}incorrect{% endif %}">
+                <h3>Question {{ forloop.counter }}: {{ answer.question.text }}</h3>
+                <p><strong>Points: </strong>
+                    {% if answer.is_correct %}
+                        {{ answer.question.points }} / {{ answer.question.points }}
+                    {% else %}
+                        0 / {{ answer.question.points }}
+                    {% endif %}
+                </p>
+                
+                {% if answer.question.question_type == 'text' %}
+                    <div class="text-answer">
+                        <p><strong>Votre réponse:</strong></p>
+                        <div class="answer-text">{{ answer.text_answer }}</div>
+                        
+                        {% if user.is_teacher %}
+                            <div class="grading-form">
+                                <h4>Noter cette réponse</h4>
+                                <form method="post" action="{% url 'quizzes:grade_text_answer' answer.id %}">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label for="is_correct">La réponse est-elle correcte?</label>
+                                        <select class="form-control" name="is_correct" id="is_correct">
+                                            <option value="true" {% if answer.is_correct %}selected{% endif %}>Oui</option>
+                                            <option value="false" {% if not answer.is_correct %}selected{% endif %}>Non</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Enregistrer la note</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="choices-review">
+                        <p><strong>Choix disponibles:</strong></p>
+                        <ul>
+                            {% for choice in answer.question.choices.all %}
+                                <li class="
+                                    {% if choice in answer.selected_choices and choice.is_correct %}correct-choice
+                                    {% elif choice in answer.selected_choices and not choice.is_correct %}wrong-choice
+                                    {% elif choice.is_correct %}missed-choice
+                                    {% endif %}">
+                                    {{ choice.text }}
+                                    {% if choice in answer.selected_choices %}
+                                        <span class="selected-marker">✓ (Sélectionné)</span>
+                                    {% endif %}
+                                    {% if choice.is_correct %}
+                                        <span class="correct-marker">✓ (Correct)</span>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="result-actions">
+        <a href="{% url 'quizzes:quiz_list' quiz_result.quiz.course.id %}" class="btn btn-primary">Retour à la liste des quiz</a>
+        <a href="{% url 'courses:course_detail' quiz_result.quiz.course.id %}" class="btn btn-secondary">Retour au cours</a>
+    </div>
+</div>
+{% endblock %}

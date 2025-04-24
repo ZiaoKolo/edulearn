@@ -1,0 +1,53 @@
+{# templates/quizzes/edit_question.html #}
+{% extends 'quizzes/base_quiz.html' %}
+
+{% block quiz_title %}Modifier la Question{% endblock %}
+
+{% block quiz_content %}
+<div class="edit-question-container">
+    <h1>Modifier la Question</h1>
+    <p>Quiz: {{ question.quiz.title }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_text">Texte de la question</label>
+            {{ form.text }}
+            {% if form.text.errors %}
+                <div class="error-feedback">{{ form.text.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_question_type">Type de question</label>
+            {{ form.question_type }}
+            {% if form.question_type.errors %}
+                <div class="error-feedback">{{ form.question_type.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_points">Points</label>
+            {{ form.points }}
+            {% if form.points.errors %}
+                <div class="error-feedback">{{ form.points.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_order">Ordre</label>
+            {{ form.order }}
+            {% if form.order.errors %}
+                <div class="error-feedback">{{ form.order.errors }}</div>
+            {% endif %}
+            <small class="form-text text-muted">Position de cette question dans le quiz.</small>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-warning">Mettre à jour la question</button>
+            <a href="{% url 'quizzes:quiz_detail' question.quiz.id %}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

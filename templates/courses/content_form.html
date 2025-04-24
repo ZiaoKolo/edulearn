@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'courses:course_list' %}">Cours</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'courses:course_detail' course.id %}">{{ course.title }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'courses:chapter_detail' chapter.id %}">{{ chapter.title }}</a></li>
+                    {% if content %}
+                        <li class="breadcrumb-item active" aria-current="page">Modifier le contenu</li>
+                    {% else %}
+                        <li class="breadcrumb-item active" aria-current="page">Nouveau contenu</li>
+                    {% endif %}
+                </ol>
+            </nav>
+            
+            <h1 class="mb-4">{{ title }}</h1>
+            
+            <div class="card">
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.title.id_for_label }}" class="form-label">Titre</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="text-danger">{{ form.title.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.content_type.id_for_label }}" class="form-label">Type de contenu</label>
+                            {{ form.content_type }}
+                            {% if form.content_type.errors %}
+                                <div class="text-danger">{{ form.content_type.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3" id="text-content-field">
+                            <label for="{{ form.text_content.id_for_label }}" class="form-label">Contenu texte</label>
+                            {{ form.text_content }}
+                            {% if form.text_content.errors %}
+                                <div class="text-danger">{{ form.text_content.errors }}</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3" id="file-field">
+                            <label for="{{ form.file.id_for_label }}" class="form-label">Fichier</label>
+                            {{ form.file }}
+                            {% if form.file.errors %}
+                                <div class="text-danger">{{ form.file.errors }}</div>
+                            {% endif %}
+                            {% if content and content.file %}
+                                <p class="mt-2">Fichier actuel: <a href="{{ content.file.url }}" target="_blank">{{ content.file.name }}</a></p>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.order.id_for_label }}" class="form-label">Ordre</label>
+                            {{ form.order }}
+                            {% if form.order.errors %}
+                                <div class="text-danger">{{ form.order.errors }}</div>
+                            {% endif %}
+                            <small class="form-text text-muted">Ordre d'affichage du contenu (1, 2, 3, etc.)</small>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% if content %}{% url 'courses:content_detail' content.id %}{% else %}{% url 'courses:chapter_detail' chapter.id %}{% endif %}" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    // Afficher/masquer les champs en fonction du type de contenu sélectionné
+    document.addEventListener('DOMContentLoaded', function() {
+        const contentTypeSelect = document.getElementById('{{ form.content_type.id_for_label }}');
+        const textContentField = document.getElementById('text-content-field');
+        const fileField = document.getElementById('file-field');
+        
+        function toggleFields() {
+            const selectedValue = contentTypeSelect.value;
+            
+            if (selectedValue === 'text') {
+                textContentField.style.display = 'block';
+                fileField.style.display = 'none';
+            } else if (selectedValue === 'video' || selectedValue === 'pdf' || selectedValue === 'image') {
+                textContentField.style.display = 'none';
+                fileField.style.display = 'block';
+            } else {
+                textContentField.style.display = 'block';
+                fileField.style.display = 'block';
+            }
+        }
+        
+        // Exécuter au chargement
+        toggleFields();
+        
+        // Exécuter lors du changement
+        contentTypeSelect.addEventListener('change', toggleFields);
+    });
+</script>
+{% endblock %}
+{% endblock %}

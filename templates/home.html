@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - Plateforme d'apprentissage en ligne{% endblock %}
+
+{% block content %}
+<div class="hero-section bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold">Apprendre n'a jamais été aussi simple</h1>
+                <p class="lead my-4">Notre plateforme vous offre un accès à des cours de qualité, créés par des enseignants passionnés, pour développer vos compétences à votre rythme.</p>
+                
+                {% if not user.is_authenticated %}
+                <div class="mt-4">
+                    <a href="{% url 'users:register' %}" class="btn btn-light btn-lg me-2">S'inscrire gratuitement</a>
+                    <a href="{% url 'users:login' %}" class="btn btn-outline-light btn-lg">Se connecter</a>
+                </div>
+                {% else %}
+                <div class="mt-4">
+                    <a href="{% url 'courses:course_list' %}" class="btn btn-light btn-lg me-2">Explorer les cours</a>
+                    <a href="{% url 'dashboard:home' %}" class="btn btn-outline-light btn-lg">Mon tableau de bord</a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <img src="{% static 'images/2.jpg' %}" alt="Illustration d'apprentissage en ligne" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Pourquoi choisir notre plateforme ?</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-primary text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                            <i class="fas fa-laptop fa-2x"></i>
+                        </div>
+                        <h4>Apprentissage flexible</h4>
+                        <p class="text-muted">Apprenez à votre rythme, où que vous soyez et quand vous le souhaitez.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-success text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                        <h4>Enseignants experts</h4>
+                        <p class="text-muted">Des cours développés par des enseignants qualifiés et passionnés par leur domaine.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <div class="feature-icon bg-warning text-white rounded-circle mb-3 mx-auto d-flex align-items-center justify-content-center" style="width: 70px; height: 70px;">
+                            <i class="fas fa-chart-line fa-2x"></i>
+                        </div>
+                        <h4>Suivi de progression</h4>
+                        <p class="text-muted">Suivez votre évolution grâce à nos outils d'évaluation et tableaux de bord personnalisés.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="courses-preview py-5 bg-light">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Cours populaires</h2>
+            <a href="{% url 'courses:course_list' %}" class="btn btn-outline-primary">Voir tous les cours</a>
+        </div>
+        
+        <div class="row g-4">
+            {% if popular_courses %}
+                {% for course in popular_courses %}
+                    <div class="col-md-4">
+                        <div class="card h-100 shadow-sm">
+                            {% if course.image %}
+                                <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}" style="height: 180px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 180px;">
+                                    <i class="fas fa-book fa-3x"></i>
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ course.title }}</h5>
+                                <p class="card-text text-muted">{{ course.description|truncatechars:100 }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">{{ course.subject.name }}</small>
+                                    <small class="text-muted">{{ course.students.count }} étudiants</small>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-white">
+                                <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary w-100">Découvrir le cours</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center py-5">
+                    <p class="text-muted">Aucun cours disponible pour le moment.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="testimonials py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Ce que nos apprenants disent</h2>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="card-text mb-3">"Cette plateforme a transformé ma façon d'apprendre. Les cours sont bien structurés et les enseignants très disponibles pour répondre aux questions."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">MB</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Marie Benoit</h6>
+                                <small class="text-muted">Étudiante en informatique</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                        <p class="card-text mb-3">"En tant qu'enseignant, j'apprécie la facilité avec laquelle je peux créer des cours interactifs et suivre la progression de mes étudiants."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">PD</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Pierre Durand</h6>
+                                <small class="text-muted">Professeur de mathématiques</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex mb-3">
+                            <div class="text-warning">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="card-text mb-3">"Grâce à cette plateforme, j'ai pu acquérir de nouvelles compétences professionnelles tout en gérant mon emploi du temps. Les quiz et exercices sont particulièrement utiles."</p>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                                <span class="fw-bold">SL</span>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Sophie Lambert</h6>
+                                <small class="text-muted">Professionnelle en reconversion</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-4">Prêt à commencer votre parcours d'apprentissage ?</h2>
+        <p class="lead mb-4">Rejoignez des milliers d'apprenants et commencez à développer vos compétences dès aujourd'hui.</p>
+        
+        {% if not user.is_authenticated %}
+        <div>
+            <a href="{% url 'users:register' %}" class="btn btn-light btn-lg me-2">S'inscrire gratuitement</a>
+            <a href="{% url 'courses:course_list' %}" class="btn btn-outline-light btn-lg">Explorer les cours</a>
+        </div>
+        {% else %}
+        <div>
+            <a href="{% url 'courses:course_list' %}" class="btn btn-light btn-lg">Explorer les cours</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

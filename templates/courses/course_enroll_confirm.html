@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}S'inscrire au cours{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Confirmation d'inscription</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Vous êtes sur le point de vous inscrire au cours "{{ course.title }}"</h5>
+                    
+                    <div class="card mb-4">
+                        <div class="row g-0">
+                            {% if course.image %}
+                            <div class="col-md-4">
+                                <img src="{{ course.image.url }}" class="img-fluid rounded-start" alt="{{ course.title }}">
+                            </div>
+                            {% endif %}
+                            <div class="{% if course.image %}col-md-8{% else %}col-md-12{% endif %}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ course.title }}</h5>
+                                    <p class="card-text">{{ course.description|truncatewords:50 }}</p>
+                                    <p class="card-text"><small class="text-muted">Enseignant: {{ course.teacher.get_full_name|default:course.teacher.username }}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-secondary">Annuler</a>
+                                <button type="submit" class="btn btn-primary">Confirmer l'inscription</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

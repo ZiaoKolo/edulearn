@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Chapters - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'courses:course_list' %}">Courses</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'courses:course_detail' course.id %}">{{ course.title }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Chapters</li>
+        </ol>
+    </nav>
+
+    <h1>{{ course.title }} - Chapters</h1>
+    
+    {% if chapters %}
+        <div class="list-group mb-4">
+            {% for chapter in chapters %}
+            <div class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ chapter.title }}</h5>
+                    <small>Chapter {{ chapter.order }}</small>
+                </div>
+                <p class="mb-1">{{ chapter.description }}</p>
+                <div class="mt-2">
+                    <a href="{% url 'courses:chapter_detail' chapter.id %}" class="btn btn-sm btn-primary">View Contents</a>
+                    {% if course.teacher == request.user %}
+                        <a href="{% url 'courses:chapter_edit' chapter.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                        <a href="{% url 'courses:chapter_delete' chapter.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">This course has no chapters yet.</div>
+    {% endif %}
+    
+    {% if course.teacher == request.user %}
+        <a href="{% url 'courses:chapter_create' course.id %}" class="btn btn-success">Add New Chapter</a>
+    {% endif %}
+</div>
+{% endblock %}

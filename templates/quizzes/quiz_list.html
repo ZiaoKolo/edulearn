@@ -1,0 +1,51 @@
+{# templates/quizzes/quiz_list.html #}
+{% extends 'quizzes/base_quiz.html' %}
+
+{% block quiz_title %}Quiz - {{ course.title }}{% endblock %}
+
+{% block quiz_content %}
+<div class="quiz-list-container">
+    <h1>Quiz pour {{ course.title }}</h1>
+    
+    {% if user.is_teacher %}
+        <div class="teacher-actions">
+            <a href="{% url 'quizzes:create_quiz' course.id %}" class="btn btn-primary">Créer un nouveau quiz</a>
+        </div>
+    {% endif %}
+    
+    {% if quizzes %}
+        <div class="quiz-list">
+            {% for quiz in quizzes %}
+                <div class="quiz-card">
+                    <h3>{{ quiz.title }}</h3>
+                    <p>{{ quiz.description|truncatewords:15 }}</p>
+                    
+                    {% if quiz.time_limit %}
+                        <p><strong>Temps limite:</strong> {{ quiz.time_limit }} minutes</p>
+                    {% endif %}
+                    
+                    <div class="quiz-actions">
+                        {% if user.is_teacher %}
+                            <a href="{% url 'quizzes:quiz_detail' quiz.id %}" class="btn btn-info">Détails</a>
+                            <a href="{% url 'quizzes:edit_quiz' quiz.id %}" class="btn btn-warning">Modifier</a>
+                            <a href="{% url 'quizzes:analytics_quiz' quiz.id %}" class="btn btn-secondary">Statistiques</a>
+                            <a href="{% url 'quizzes:delete_quiz' quiz.id %}" class="btn btn-danger" 
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce quiz?')">Supprimer</a>
+                        {% else %}
+                            {% if quiz.id in completed_quizzes %}
+                                <a href="{% url 'quizzes:quiz_result' quiz.id %}" class="btn btn-success">Voir résultats</a>
+                            {% else %}
+                                <a href="{% url 'quizzes:take_quiz' quiz.id %}" class="btn btn-primary">Démarrer le quiz</a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="no-quizzes">
+            <p>Aucun quiz disponible pour ce cours.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

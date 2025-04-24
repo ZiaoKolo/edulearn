@@ -1,0 +1,64 @@
+{# templates/quizzes/take_quiz.html #}
+{% extends 'quizzes/base_quiz.html' %}
+{% load static %}
+
+{% block quiz_title %}Quiz: {{ quiz.title }}{% endblock %}
+
+{% block quiz_content %}
+<div class="take-quiz-container">
+    <div class="quiz-header">
+        <h1>{{ quiz.title }}</h1>
+        <p>{{ quiz.description }}</p>
+        
+        {% if quiz.time_limit %}
+        <div class="timer-container">
+            <h3>Temps limite: {{ quiz.time_limit }} minutes</h3>
+            <p>Quiz commencé à: {{ start_time|time:"H:i:s" }}</p>
+            <p>Heure de fin: {{ end_time|time:"H:i:s" }}</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <form id="quiz-form" method="post" action="{% url 'quizzes:submit_quiz' quiz.id %}">
+        {% csrf_token %}
+        <input type="hidden" name="start_time" value="{{ start_time_iso }}">
+        
+        {% for question in questions %}
+        <div class="question-box">
+            <h3>Question {{ forloop.counter }}: {{ question.text }}</h3>
+            <p><small>Points: {{ question.points }}</small></p>
+            
+            {% if question.question_type == 'single' %}
+                {% for choice in question.choices.all %}
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="question_{{ question.id }}" id="choice_{{ choice.id }}" value="{{ choice.id }}">
+                    <label class="form-check-label" for="choice_{{ choice.id }}">
+                        {{ choice.text }}
+                    </label>
+                </div>
+                {% endfor %}
+            
+            {% elif question.question_type == 'multiple' %}
+                {% for choice in question.choices.all %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="question_{{ question.id }}" id="choice_{{ choice.id }}" value="{{ choice.id }}">
+                    <label class="form-check-label" for="choice_{{ choice.id }}">
+                        {{ choice.text }}
+                    </label>
+                </div>
+                {% endfor %}
+            
+            {% elif question.question_type == 'text' %}
+                <div class="form-group">
+                    <textarea class="form-control" name="question_{{ question.id }}" rows="4" placeholder="Votre réponse..."></textarea>
+                </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Soumettre mes réponses</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load file_tags %}
+{% block title %}{{ content.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'courses:course_list' %}">Courses</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'courses:course_detail' course.id %}">{{ course.title }}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'courses:chapter_detail' chapter.id %}">{{ chapter.title }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ content.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ content.title }}</h1>
+            <p class="badge bg-info">{{ content.get_content_type_display }}</p>
+            
+            <div class="content-body mt-4">
+                {% if content.content_type == 'text' %}
+                    <div class="card">
+                        <div class="card-body">
+                            {{ content.text_content|safe }}
+                        </div>
+                    </div>
+                {% elif content.content_type == 'video' %}
+                    <div class="ratio ratio-16x9 mb-3">
+                        <iframe src="{{ content.file.url }}" title="{{ content.title }}" allowfullscreen></iframe>
+                    </div>
+                    {% if content.text_content %}
+                        <div class="card mt-3">
+                            <div class="card-body">
+                                {{ content.text_content|safe }}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% elif content.content_type == 'pdf' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <a href="{{ content.file.url }}" class="btn btn-primary mb-3" target="_blank">
+                                <i class="fas fa-download"></i> Download PDF
+                            </a>
+                            
+                            <!-- PDF viewer -->
+                            <object data="{{ content.file.url }}" type="application/pdf" width="100%" height="600px">
+                                <p>It seems your browser doesn't support embedded PDFs.
+                                You can <a href="{{ content.file.url }}">download the PDF</a> instead.</p>
+                            </object>
+                            
+                            {% if content.text_content %}
+                                <div class="mt-3">
+                                    {{ content.text_content|safe }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% elif content.content_type == 'image' %}
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="{{ content.file.url }}" class="img-fluid" alt="{{ content.title }}">
+                            
+                            {% if content.text_content %}
+                                <div class="mt-3">
+                                    {{ content.text_content|safe }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="navigation-buttons mt-4 d-flex justify-content-between">
+                {% if prev_content %}
+                    <a href="{% url 'courses:content_detail' prev_content.id %}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left"></i> Previous: {{ prev_content.title }}
+                    </a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+                
+                {% if next_content %}
+                    <a href="{% url 'courses:content_detail' next_content.id %}" class="btn btn-outline-primary">
+                        Next: {{ next_content.title }} <i class="fas fa-arrow-right"></i>
+                    </a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Content Actions
+                </div>
+                <div class="card-body">
+                    {% if course.teacher == request.user %}
+                        <a href="{% url 'courses:content_edit' content_id=content.id %}" class="btn btn-primary mb-2 w-100">Edit Content</a>
+                        <a href="{% url 'courses:content_delete' content_id=content.id %}" class="btn btn-danger mb-2 w-100">Delete Content</a>
+                    {% endif %}
+                    <a href="{% url 'courses:chapter_detail' chapter_id=chapter.id %}" class="btn btn-secondary w-100">Back to Chapter</a>
+                </div>
+            </div>
+            
+            <!-- Chapter Content List -->
+            <div class="card">
+                <div class="card-header">
+                    {{ chapter.title }} - Contents
+                </div>
+                <ul class="list-group list-group-flush">
+                    {% for item in chapter.contents.all %}
+                        <li class="list-group-item {% if item.id == content.id %}active{% endif %}">
+                            <a href="{% url 'courses:content_detail' content_id=item.id %}" class="{% if item.id == content.id %}text-white{% endif %}">
+                                {{ item.title }}
+                            </a>
+                            {% if request.user.is_student %}
+                                {% if item.progress and item.progress.completed %}
+                                    <span class="badge bg-success float-end">✓</span>
+                                {% endif %}
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

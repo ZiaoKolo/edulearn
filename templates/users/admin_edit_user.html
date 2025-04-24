@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Éditer l'utilisateur{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Éditer l'utilisateur: {{ user_to_edit.username }}</h2>
+    
+    <div class="card shadow">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="id_username" class="form-label">Nom d'utilisateur</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger">{{ form.username.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="text-danger">{{ form.email.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_first_name" class="form-label">Prénom</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <div class="text-danger">{{ form.first_name.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_last_name" class="form-label">Nom</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <div class="text-danger">{{ form.last_name.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_role" class="form-label">Rôle</label>
+                    {{ form.role }}
+                    {% if form.role.errors %}
+                        <div class="text-danger">{{ form.role.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_bio" class="form-label">Biographie</label>
+                    {{ form.bio }}
+                    {% if form.bio.errors %}
+                        <div class="text-danger">{{ form.bio.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3">
+                    <label for="id_profile_pic" class="form-label">Photo de profil</label>
+                    {% if user_to_edit.profile_pic %}
+                        <div class="mb-2">
+                            <img src="{{ user_to_edit.profile_pic.url }}" alt="Photo de profil actuelle" class="img-thumbnail" style="max-width: 150px;">
+                        </div>
+                    {% endif %}
+                    {{ form.profile_pic }}
+                    {% if form.profile_pic.errors %}
+                        <div class="text-danger">{{ form.profile_pic.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="mb-3 form-check">
+                    {{ form.is_active }}
+                    <label class="form-check-label" for="id_is_active">Compte actif</label>
+                    {% if form.is_active.errors %}
+                        <div class="text-danger">{{ form.is_active.errors }}</div>
+                    {% endif %}
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                    <a href="{% url 'users:user_detail' user_profile.id %}" class="btn btn-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

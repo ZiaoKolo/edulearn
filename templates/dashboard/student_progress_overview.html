@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon Progrès{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Mon progrès global</h1>
+    
+    <div class="row">
+        {% for course_progress in courses_progress %}
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course_progress.course.title }}</h5>
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span>Progression</span>
+                            <span>{{ course_progress.completed_content }} / {{ course_progress.total_content }}</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" width="{{ course_progress.progress_percentage }}%"
+                                aria-valuenow="{{ course_progress.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                {{ course_progress.progress_percentage|floatformat:1 }}%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'courses:course_detail' course_progress.course.id %}" class="btn btn-sm btn-outline-primary">
+                            Voir le cours
+                        </a>
+                        <a href="{% url 'dashboard:student_progress' course_progress.course.id %}" class="btn btn-sm btn-primary">
+                            Détails de progression
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <p>Vous n'êtes inscrit à aucun cours pour le moment.</p>
+                <a href="{% url 'courses:list' %}" class="btn btn-primary mt-2">Explorer les cours</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Mes Quiz{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Mes Quiz</h1>
+        
+        {% if teaching_courses %}
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="createQuizDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Créer un quiz
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="createQuizDropdown">
+                {% for course in teaching_courses %}
+                <li><a class="dropdown-item" href="{% url 'quizzes:create_quiz' course.id %}">{{ course.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Titre du Quiz</th>
+                            <th>Cours</th>
+                            <th>Questions</th>
+                            <th>Participations</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quiz in quizzes %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'quizzes:quiz_detail' quiz.id %}">{{ quiz.title }}</a>
+                            </td>
+                            <td>{{ quiz.course.title }}</td>
+                            <td>{{ quiz.question_set.count }}</td>
+                            <td>{{ quiz.quizresult_set.count }}</td>
+                            <td>
+                                <a href="{% url 'quizzes:edit_quiz' quiz.id %}" class="btn btn-sm btn-outline-secondary me-1">Éditer</a>
+                                <a href="{% url 'quizzes:analytics_quiz' quiz.id %}" class="btn btn-sm btn-outline-info me-1">Résultats</a>
+                                <a href="{% url 'quizzes:delete_quiz' quiz.id %}" class="btn btn-sm btn-outline-danger">Supprimer</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center py-3">
+                                <p>Vous n'avez créé aucun quiz pour le moment.</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

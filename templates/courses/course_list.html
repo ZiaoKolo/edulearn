@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% block courses_title %}EduLearn - Courses{% endblock %}
+{% endblock %}
+
+{% block content %}
+    <div class="courses-container">
+        <div class="row">
+            <div class="col-md-3">
+                {% block courses_sidebar %}
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Categories</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <a href="{% url 'courses:course_list' %}">All Courses</a>
+                                </li>
+                                {% for subject in subjects %}
+                                <li class="list-group-item">
+                                    <a href="{% url 'courses:course_list_by_subject' subject.id %}">
+                                        {{ subject.name }}
+                                        <span class="badge bg-secondary float-end">{{ subject.total_courses }}</span>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    {% if user.is_teacher %}
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Teacher Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <a href="{% url 'courses:create_course' %}" class="btn btn-primary w-100 mb-2">Create New Course</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if user.is_admin_user %}
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Admin Actions</h5>
+                        </div>
+                        <div class="card-body">
+                            <a href="{% url 'courses:subject_list' %}" class="btn btn-primary w-100 mb-2">Manage Subjects</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endblock %}
+            </div>
+            
+            <div class="col-md-9">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                {% block courses_content %}
+                    <h2>
+                        {% if subject %}
+                            Courses in "{{ subject.name }}"
+                        {% else %}
+                            All Courses
+                        {% endif %}
+                    </h2>
+                    
+                    {% if query %}
+                    <p>Search results for: <strong>{{ query }}</strong></p>
+                    {% endif %}
+                    
+                    {% if courses %}
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                            {% for course in courses %}
+                                <div class="col">
+                                    <div class="card h-100">
+                                        {% if course.image %}
+                                            <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
+                                        {% else %}
+                                            <div class="card-img-top bg-light text-center py-5">
+                                                <i class="bi bi-book" style="font-size: 3rem;"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ course.title }}</h5>
+                                            <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary">View Course</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            No courses available{% if subject %} in this category{% endif %}{% if query %} matching your search{% endif %}.
+                        </div>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

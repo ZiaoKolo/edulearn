@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profil de {{ user_profile.username }} - EduLearn{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <a href="{% url 'users:user_list' %}" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-1"></i>Retour à la liste
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5><i class="fas fa-user me-2"></i>Informations de l'utilisateur</h5>
+            </div>
+            <div class="card-body text-center">
+                {% if user_profile.profile_pic %}
+                    <img src="{{ user_profile.profile_pic.url }}" alt="Profile" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center mb-3" style="width: 150px; height: 150px;">
+                        <i class="fas fa-user-circle" style="font-size: 100px; color: #aaa;"></i>
+                    </div>
+                {% endif %}
+                
+                <h4>{{ user_profile.username }}</h4>
+                <p class="text-muted">
+                    {% if user_profile.role == 'student' %}
+                        <span class="badge bg-info">Élève</span>
+                    {% elif user_profile.role == 'teacher' %}
+                        <span class="badge bg-success">Enseignant</span>
+                    {% elif user_profile.role == 'admin' %}
+                        <span class="badge bg-danger">Administrateur</span>
+                    {% endif %}
+                </p>
+                
+                <div class="mt-3">
+                    <a href="{% url 'users:admin_edit_user' user_profile.id %}" class="btn btn-outline-primary me-2">
+                        <i class="fas fa-edit me-1"></i>Modifier
+                    </a>
+                    <a href="{% url 'users:delete_user' user_profile.id %}" class="btn btn-outline-danger">
+                        <i class="fas fa-trash me-1"></i>Supprimer
+                    </a>
+                </div>
+            </div>
+            
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <i class="fas fa-envelope me-2"></i><strong>Email:</strong> {{ user_profile.email }}
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-user-tag me-2"></i><strong>Nom complet:</strong> 
+                    {% if user_profile.first_name or user_profile.last_name %}
+                        {{ user_profile.first_name }} {{ user_profile.last_name }}
+                    {% else %}
+                        Non renseigné
+                    {% endif %}
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-calendar-alt me-2"></i><strong>Inscrit depuis:</strong> {{ user_profile.date_joined|date:"d/m/Y" }}
+                </li>
+                <li class="list-group-item">
+                    <i class="fas fa-clock me-2"></i><strong>Dernière connexion:</strong> {{ user_profile.last_login|date:"d/m/Y H:i"|default:"Jamais" }}
+                </li>
+            </ul>
+        </div>
+        
+        {% if user_profile.bio %}
+        <div class="card mt-3">
+            <div class="card-header">
+                <h5><i class="fas fa-info-circle me-2"></i>Biographie</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ user_profile.bio }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="col-md-8">
+        {% if user_profile.is_student %}
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5><i class="fas fa-book-reader me-2"></i>Cours suivis</h5>
+                </div>
+                <div class="card-body">
+                    {% if enrolled_courses %}
+                        <div class="list-group">
+                            {% for course in enrolled_courses %}
+                                <a href="{% url 'courses:detail' course.id %}" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ course.title }}</h5>
+            
+                                    </div>
+                                    <p class="mb-1">{{ course.description|truncatechars:100 }}</p>
+                                    <small>Par: {{ course.teacher.username }}</small>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Cet élève n'est inscrit à aucun cours.</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card mt-3">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-tasks me-2"></i>Résultats des quiz</h5>
+                </div>
+                <div class="card-body">
+                    {% if quiz_results %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Quiz</th>
+                                        <th>Cours</th>
+                                        <th>Score</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in quiz_results %}
+                                        <tr>
+                                            <td>{{ result.quiz.title }}</td>
+                                            <td>{{ result.quiz.course.title }}</td>
+                                            <td>
+                                                {{ result.score }}/{{ result.max_score }}
+                                                ({{ result.score|floatformat:0|default:0|stringformat:"d" }}%)
+                                            </td>
+                                            <td>{{ result.completed_at|date:"d/m/Y H:i" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Cet élève n'a pas encore passé de quiz.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% elif user_profile.is_teacher %}
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5><i class="fas fa-chalkboard-teacher me-2"></i>Cours enseignés</h5>
+                </div>
+                <div class="card-body">
+                    {% if taught_courses %}
+                        <div class="list-group">
+                            {% for course in taught_courses %}
+                                <a href="{% url 'courses:detail' course.id %}" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ course.title }}</h5>
+                                        <small>Créé le {{ course.created_at|date:"d/m/Y" }}</small>
+                                    </div>
+                                    <p class="mb-1">{{ course.description|truncatechars:100 }}</p>
+                                    <small>{{ course.students.count }} élèves inscrits</small>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-muted">Cet enseignant n'a pas encore créé de cours.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

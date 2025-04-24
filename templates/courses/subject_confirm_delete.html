@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer la matière{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'courses:subject_list' %}">Matières</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Supprimer la matière</li>
+                </ol>
+            </nav>
+            
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Confirmation de suppression</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Êtes-vous sûr de vouloir supprimer la matière "{{ subject.name }}" ?</h5>
+                    <p class="card-text text-danger">
+                        <strong>Attention :</strong> Cette action est irréversible et pourrait affecter les cours associés à cette matière.
+                    </p>
+                    
+                    {% if subject.courses.all.exists %}
+                    <div class="alert alert-warning">
+                        <h6>Cours associés à cette matière :</h6>
+                        <ul>
+                            {% for course in subject.courses.all %}
+                                <li>{{ course.title }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mt-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'courses:subject_list' %}" class="btn btn-secondary">Annuler</a>
+                                <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

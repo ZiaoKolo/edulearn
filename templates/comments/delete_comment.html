@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Supprimer un commentaire{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Supprimer le commentaire</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <p>Êtes-vous sûr de vouloir supprimer ce commentaire ?</p>
+                        <blockquote class="comment-text">
+                            {{ comment.text|linebreaks }}
+                        </blockquote>
+                        <p class="text-muted">Cette action est irréversible.</p>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-buttons">
+                            <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-secondary">Annuler</a>
+                            <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

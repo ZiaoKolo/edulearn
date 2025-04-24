@@ -1,0 +1,75 @@
+
+
+{% extends 'base.html' %}
+
+{% block title %}{{ chapter.title }} - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'courses:course_list' %}">Courses</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'courses:course_detail' course.id %}">{{ course.title }}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'courses:chapter_list' course.id %}">Chapters</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ chapter.title }}</li>
+        </ol>
+    </nav>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <h1>{{ chapter.title }}</h1>
+            <p class="lead">{{ chapter.description }}</p>
+            
+            {% if contents %}
+                <h2 class="mt-4">Contents</h2>
+                <div class="list-group mb-4">
+                    {% for content in contents %}
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ content.title }}</h5>
+                            <small>{{ content.get_content_type_display }}</small>
+                        </div>
+                        <p class="mb-1">{{ content.description|truncatewords:20 }}</p>
+                        
+                        {% if request.user.is_student %}
+                            {% if content.progress.completed %}
+                                <span class="badge bg-success">Completed</span>
+                            {% else %}
+                                <span class="badge bg-warning">Not completed</span>
+                            {% endif %}
+                        {% endif %}
+                        
+                        <div class="mt-2">
+                            <a href="{% url 'courses:content_detail' content.id %}" class="btn btn-sm btn-primary">View Content</a>
+                            {% if course.teacher == request.user %}
+                                <a href="{% url 'courses:content_edit' content.id %}" class="btn btn-sm btn-secondary">Edit</a>
+                                <a href="{% url 'courses:content_delete' content.id %}" class="btn btn-sm btn-danger">Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">This chapter has no contents yet.</div>
+            {% endif %}
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Chapter Actions
+                </div>
+                <div class="card-body">
+                    {% if course.teacher == request.user %}
+                        <!-- Correction ici: utilisation de l'URL tag avec le nom correct -->
+                        <a href="{% url 'courses:content_create' chapter.id %}" class="btn btn-success mb-2 w-100">Add Content</a>
+                        <a href="{% url 'courses:chapter_edit' chapter.id %}" class="btn btn-primary mb-2 w-100">Edit Chapter</a>
+                        <a href="{% url 'courses:chapter_delete' chapter.id %}" class="btn btn-danger mb-2 w-100">Delete Chapter</a>
+                    {% endif %}
+                    <a href="{% url 'courses:chapter_list' course.id %}" class="btn btn-secondary w-100">Back to Chapters</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

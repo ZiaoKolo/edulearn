@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gestion des utilisateurs - EduLearn{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="fas fa-users me-2"></i>Gestion des utilisateurs</h2>
+    <div class="btn-toolbar">
+        <div class="dropdown me-2">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
+                Filtrer par rôle
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="filterDropdown">
+                <li><a class="dropdown-item {% if not role_filter %}active{% endif %}" href="{% url 'users:user_list' %}">Tous</a></li>
+                {% for role_code, role_name in roles %}
+                    <li><a class="dropdown-item {% if role_filter == role_code %}active{% endif %}" href="{% url 'users:user_list' %}?role={{ role_code }}">{{ role_name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>Nom d'utilisateur</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Date d'inscription</th>
+                        <th>Activité</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user_item in users %}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                {% if user_item.profile_pic %}
+                                    <img src="{{ user_item.profile_pic.url }}" alt="Profile" class="rounded-circle me-2" style="width: 32px; height: 32px;">
+                                {% else %}
+                                    <i class="fas fa-user-circle me-2" style="font-size: 32px;"></i>
+                                {% endif %}
+                                {{ user_item.username }}
+                            </div>
+                        </td>
+                        <td>{{ user_item.email }}</td>
+                        <td>
+                            {% if user_item.role == 'student' %}
+                                <span class="badge bg-info">Élève</span>
+                            {% elif user_item.role == 'teacher' %}
+                                <span class="badge bg-success">Enseignant</span>
+                            {% elif user_item.role == 'admin' %}
+                                <span class="badge bg-danger">Administrateur</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ user_item.date_joined|date:"d/m/Y" }}</td>
+                        <td>
+                            {% if user_item.role == 'student' %}
+                                {{ user_item.enrolled_count }} cours suivis
+                            {% elif user_item.role == 'teacher' %}
+                                {{ user_item.teaching_count }} cours créés
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{% url 'users:user_detail' user_item.id %}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{% url 'users:admin_edit_user' user_item.id %}" class="btn btn-sm btn-outline-secondary">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{% url 'users:delete_user' user_item.id %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">Aucun utilisateur trouvé</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

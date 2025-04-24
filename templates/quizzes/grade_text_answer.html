@@ -1,0 +1,46 @@
+{# templates/quizzes/grade_text_answer.html #}
+{% extends 'base_quiz.html' %}
+
+{% block quiz_title %}Noter une réponse{% endblock %}
+
+{% block quiz_content %}
+<div class="grade-answer-container">
+    <h1>Noter une réponse</h1>
+    
+    <div class="answer-info">
+        <h3>Question</h3>
+        <p>{{ answer.question.text }}</p>
+        
+        <h3>Réponse de l'étudiant</h3>
+        <div class="student-answer">
+            {{ answer.text_answer }}
+        </div>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_is_correct">Cette réponse est-elle correcte?</label>
+            {{ form.is_correct }}
+            {% if form.is_correct.errors %}
+                <div class="error-feedback">{{ form.is_correct.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_feedback">Commentaire (optionnel)</label>
+            {{ form.feedback }}
+            {% if form.feedback.errors %}
+                <div class="error-feedback">{{ form.feedback.errors }}</div>
+            {% endif %}
+            <small class="form-text text-muted">Ce commentaire sera visible par l'étudiant.</small>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Enregistrer la note</button>
+            <a href="{% url 'quizzes:quiz_result' answer.quiz_result.id %}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block title %}Assigner le quiz{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Assigner le quiz: {{ quiz.title }}</h1>
+    <p class="text-muted">Cours: {{ quiz.course.title }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Sélectionner les étudiants</h5>
+            </div>
+            <div class="card-body">
+                {% if students %}
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="selectAll">
+                        <label class="form-check-label" for="selectAll">
+                            Sélectionner tous les étudiants
+                        </label>
+                    </div>
+                </div>
+                <hr>
+                
+                <div class="row">
+                    {% for student in students %}
+                    <div class="col-md-6 mb-2">
+                        <div class="form-check">
+                            <input class="form-check-input student-checkbox" type="checkbox" name="students" value="{{ student.id }}" id="student-{{ student.id }}">
+                            <label class="form-check-label" for="student-{{ student.id }}">
+                                {{ student.get_full_name|default:student.username }}
+                            </label>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-center">Aucun étudiant inscrit à ce cours.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Options d'assignation</h5>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="due_date" class="form-label">Date limite (optionnel)</label>
+                    <input type="datetime-local" class="form-control" id="due_date" name="due_date">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message aux étudiants (optionnel)</label>
+                    <textarea class="form-control" id="message" name="message" rows="3"></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'quizzes:quiz_detail' quiz.id %}" class="btn btn-outline-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">Assigner le quiz</button>
+        </div>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const studentCheckboxes = document.querySelectorAll('.student-checkbox');
+    
+    if (selectAllCheckbox) {
+        selectAllCheckbox.addEventListener('change', function() {
+            const isChecked = this.checked;
+            studentCheckboxes.forEach(checkbox => {
+                checkbox.checked = isChecked;
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

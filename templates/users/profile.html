@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}Mon Profil | EduLearn{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card shadow mb-4">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Informations personnelles</h4>
+            </div>
+            <div class="card-body text-center">
+                {% if user.profile_pic %}
+                    <img src="{{ user.profile_pic.url }}" alt="Photo de profil" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                {% else %}
+                    <div class="bg-light rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 150px; height: 150px;">
+                        <i class="fas fa-user-circle fa-6x text-secondary"></i>
+                    </div>
+                {% endif %}
+                
+                <h3>{{ user.get_full_name|default:user.username }}</h3>
+                <p class="text-muted">
+                    <i class="fas fa-user-tag"></i> {{ user.get_role_display }}
+                </p>
+                <p>
+                    <i class="fas fa-envelope"></i> {{ user.email }}
+                </p>
+                
+                {% if user.bio %}
+                    <div class="text-start mt-3">
+                        <h5>À propos</h5>
+                        <p>{{ user.bio }}</p>
+                    </div>
+                {% endif %}
+                
+                <div class="d-grid gap-2 mt-3">
+                    <a href="{% url 'users:edit_profile' %}" class="btn btn-primary">
+                        <i class="fas fa-user-edit"></i> Modifier le profil
+                    </a>
+                    <a href="{% url 'users:change_password' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-key"></i> Changer le mot de passe
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        {% if user.is_student %}
+            <!-- Contenu spécifique pour les étudiants -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Mes cours</h4>
+                </div>
+                <div class="card-body">
+                    {% if enrolled_courses %}
+                        <div class="row">
+                            {% for course in enrolled_courses %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        {% if course.image %}
+                                            <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
+                                        {% else %}
+                                            <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
+                                                <i class="fas fa-book fa-3x text-secondary"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ course.title }}</h5>
+                                            <p class="card-text text-muted">{{ course.subject.name }}</p>
+                                            <p class="card-text"><small class="text-muted">Par {{ course.teacher.get_full_name|default:course.teacher.username }}</small></p>
+                                            <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary btn-sm">Accéder au cours</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <p>Vous n'êtes inscrit à aucun cours pour le moment.</p>
+                            <a href="{% url 'courses:course_list' %}" class="btn btn-primary mt-2">Découvrir les cours</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Mes résultats de quiz</h4>
+                </div>
+                <div class="card-body">
+                    {% if quiz_results %}
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Quiz</th>
+                                        <th>Cours</th>
+                                        <th>Score</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for result in quiz_results %}
+                                        <tr>
+                                            <td>{{ result.quiz.title }}</td>
+                                            <td>{{ result.quiz.course.title }}</td>
+                                            <td>
+                                                {{ result.score }}/{{ result.max_score }}
+                                                ({{ result.score|floatformat:0|default:"0" }}%)
+                                            </td>
+                                            <td>{{ result.completed_at|date:"d/m/Y H:i" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Vous n'avez pas encore effectué de quiz.
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+        {% elif user.is_teacher %}
+            <!-- Contenu spécifique pour les enseignants -->
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Mes cours</h4>
+                    <a href="{% url 'courses:create_course' %}" class="btn btn-light btn-sm">
+                        <i class="fas fa-plus"></i> Créer un cours
+                    </a>
+                </div>
+                <div class="card-body">
+                    {% if taught_courses %}
+                        <div class="row">
+                            {% for course in taught_courses %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card h-100">
+                                        {% if course.image %}
+                                            <img src="{{ course.image.url }}" class="card-img-top" alt="{{ course.title }}">
+                                        {% else %}
+                                            <div class="bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
+                                                <i class="fas fa-book fa-3x text-secondary"></i>
+                                            </div>
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ course.title }}</h5>
+                                            <p class="card-text text-muted">{{ course.subject.name }}</p>
+                                            <p class="card-text">
+                                                <small class="text-muted">
+                                                    <i class="fas fa-users"></i> {{ course.students.count }} élèves inscrits
+                                                </small>
+                                            </p>
+                                            <div class="d-flex gap-2">
+                                                <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-primary btn-sm">Voir</a>
+                                                <a href="{% url 'courses:edit_course' course.id %}" class="btn btn-outline-secondary btn-sm">Modifier</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <p>Vous n'avez créé aucun cours pour le moment.</p>
+                            <a href="{% url 'courses:create_course' %}" class="btn btn-primary mt-2">Créer un cours</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Statistiques</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-success text-white mb-3">
+                                <div class="card-body text-center">
+                                    <h3>{{ taught_courses.count }}</h3>
+                                    <p class="mb-0">Cours créés</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-info text-white mb-3">
+                                <div class="card-body text-center">
+                                    <h3>{{ total_students }}</h3>
+                                    <p class="mb-0">Étudiants inscrits</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-warning text-white mb-3">
+                                <div class="card-body text-center">
+                                    <h3>{{ user.courses_teaching.all|length }}</h3>
+                                    <p class="mb-0">Sujets couverts</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

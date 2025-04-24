@@ -1,0 +1,261 @@
+{% load custom_filters %}
+{% load static %}
+{% extends 'base.html' %}
+
+{% block title %}Progression du cours - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard:home' %}">Tableau de bord</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'dashboard:student_progress' %}">Ma progression</a></li>
+                    <li class="breadcrumb-item active">{{ course.title }}</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                    <h4 class="card-title mb-0">{{ course.title }}</h4>
+                    <a href="{% url 'courses:course_detail' course.id %}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-external-link-alt"></i> Voir le cours
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-4" style="height: 20px;">
+                        <div class="progress-bar bg-success progress-width-dynamic" role="progressbar"
+                             data-progress="{{ progress_percentage }}"
+                             aria-valuenow="{{ progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ progress_percentage|floatformat:1 }}%
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5>Progression détaillée</h5>
+                            <span class="badge bg-primary">{{ completed_content }}/{{ total_content }} contenus complétés</span>
+                        </div>
+                        
+                        <div class="accordion" id="chaptersAccordion">
+                            {% for chapter_data in progress_data %}
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading-{{ chapter_data.chapter.id }}">
+                                        <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" 
+                                                data-bs-toggle="collapse" data-bs-target="#collapse-{{ chapter_data.chapter.id }}" 
+                                                aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" 
+                                                aria-controls="collapse-{{ chapter_data.chapter.id }}">
+                                            {{ chapter_data.chapter.title }}
+                                        </button>
+                                    </h2>
+                                    <div id="collapse-{{ chapter_data.chapter.id }}" 
+                                         class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" 
+                                         aria-labelledby="heading-{{ chapter_data.chapter.id }}" 
+                                         data-bs-parent="#chaptersAccordion">
+                                        <div class="accordion-body">
+                                            <ul class="list-group">
+                                                {% for content_data in chapter_data.contents %}
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="{% if content_data.content.content_type == 'text' %}fas fa-file-alt
+                                                                      {% elif content_data.content.content_type == 'video' %}fas fa-video
+                                                                      {% elif content_data.content.content_type == 'pdf' %}fas fa-file-pdf
+                                                                      {% elif content_data.content.content_type == 'image' %}fas fa-image
+                                                                      {% endif %} me-2"></i>
+                                                            {{ content_data.content.title }}
+                                                        </div>
+                                                        <div class="d-flex align-items-center">
+                                                            {% if content_data.completed %}
+                                                                <span class="badge bg-success me-2">Complété</span>
+                                                            {% else %}
+                                                                <span class="badge bg-secondary me-2">Non complété</span>
+                                                            {% endif %}
+                                                            <a href="{% url 'courses:content_detail' content_data.content.id %}" class="btn btn-sm btn-outline-primary">
+                                                                <i class="fas fa-eye"></i>
+                                                            </a>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="card-title mb-0">Statistiques</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center mb-4">
+                        <div class="progress-container">
+                            <div class="progress-circle {{ progress_class }}">
+                                <div class="progress-inner">
+                                    <span class="progress-percentage">{{ progress_percentage|floatformat:0 }}%</span>
+                                    <p>Complétion</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-container">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <i class="fas fa-check-circle text-success me-2"></i>
+                                Contenus complétés
+                            </div>
+                            <strong>{{ completed_content }}/{{ total_content }}</strong>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <i class="fas fa-clock text-warning me-2"></i>
+                                Temps estimé restant
+                            </div>
+                            <strong>
+                                {% with remaining=total_content|subtract:completed_content %}
+                                    {% if remaining > 0 %}
+                                        {{ remaining|multiply:15 }} minutes
+                                    {% else %}
+                                        0 minutes
+                                    {% endif %}
+                                {% endwith %}
+                            </strong>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <i class="fas fa-certificate text-info me-2"></i>
+                                Statut du certificat
+                            </div>
+                            <strong>
+                                {% if progress_percentage == 100 %}
+                                    <span class="text-success">Disponible</span>
+                                {% else %}
+                                    <span class="text-muted">Non disponible</span>
+                                {% endif %}
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quiz performance if applicable -->
+            {% if course_quizzes %}
+                <div class="card shadow-sm">
+                    <div class="card-header bg-white">
+                        <h5 class="card-title mb-0">Performance des quiz</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            {% for quiz_result in course_quizzes %}
+                                <li class="list-group-item">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <span>{{ quiz_result.quiz.title }}</span>
+                                        <span class="badge {% if quiz_result.score >= 80 %}bg-success{% elif quiz_result.score >= 60 %}bg-warning{% else %}bg-danger{% endif %}">
+                                            {{ quiz_result.score|floatformat:0 }}%
+                                        </span>
+                                    </div>
+                                    <div class="progress" style="height: 6px;">
+                                        <div class="progress-bar progress-width-dynamic {% if quiz_result.score >= 80 %}bg-success{% elif quiz_result.score >= 60 %}bg-warning{% else %}bg-danger{% endif %}" 
+                                             role="progressbar" data-progress="{{ quiz_result.score }}" 
+                                             aria-valuenow="{{ quiz_result.score }}" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                    <small class="text-muted d-block text-end mt-1">{{ quiz_result.completed_at|date:"d/m/Y" }}</small>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .progress-container {
+        text-align: center;
+        margin: 0 auto;
+    }
+    
+    .progress-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: 0 auto;
+        position: relative;
+        border: 15px solid #e9ecef;
+    }
+    
+    .progress-circle.progress-low {
+        border-top-color: #28a745;
+        transform: rotate(-45deg);
+    }
+    
+    .progress-circle.progress-medium-low {
+        border-top-color: #28a745;
+        border-right-color: #28a745;
+        transform: rotate(-45deg);
+    }
+    
+    .progress-circle.progress-medium-high {
+        border-top-color: #28a745;
+        border-right-color: #28a745;
+        border-bottom-color: #28a745;
+        transform: rotate(-45deg);
+    }
+    
+    .progress-circle.progress-high {
+        border-color: #28a745;
+    }
+    
+    .progress-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: rotate(45deg);
+    }
+    
+    .progress-percentage {
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 0;
+    }
+    
+    .progress-inner p {
+        margin-bottom: 0;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Appliquer dynamiquement les largeurs aux barres de progression
+        document.querySelectorAll('.progress-width-dynamic').forEach(function(el) {
+            el.style.width = el.getAttribute('data-progress') + '%';
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

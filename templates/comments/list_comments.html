@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{ title }}</h3>
+                </div>
+                <div class="card-body">
+                    {% if user.is_authenticated %}
+                        <div class="comment-form-container mb-4">
+                            <h4>Ajouter un commentaire</h4>
+                            <form action="{% url 'comments:add_comment' content_type object.id %}" method="post" class="comment-form">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <textarea name="text" rows="3" class="form-control" placeholder="Écrivez votre commentaire..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-2">Commenter</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                    
+                    <div class="comments-list">
+                        {% if comments %}
+                            {% for comment in comments %}
+                                {% include "comments/base_comment.html" with comment=comment %}
+                            {% endfor %}
+                        {% else %}
+                            <div class="no-comments">
+                                <p>Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Reply functionality
+        document.querySelectorAll('.btn-reply').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const commentId = this.getAttribute('data-comment-id');
+                const replyForm = document.getElementById(`reply-form-${commentId}`);
+                
+                // Hide all other forms
+                document.querySelectorAll('.reply-form-container').forEach(form => {
+                    if (form.id !== `reply-form-${commentId}`) {
+                        form.style.display = 'none';
+                    }
+                });
+                
+                // Toggle the clicked form
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+        
+        // Cancel reply
+        document.querySelectorAll('.cancel-reply').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const formContainer = this.closest('.reply-form-container');
+                formContainer.style.display = 'none';
+            });
+        });
+        
+        // Vote functionality
+        document.querySelectorAll('.btn-vote').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const commentId = this.getAttribute('data-comment-id');
+                const voteType = this.getAttribute('data-vote-type');
+                
+                fetch(`{% url 'comments:vote_comment' 0 %}`.replace('0', commentId), {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: `vote_type=${voteType}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const comment = document.getElementById(`comment-${commentId}`);
+                        comment.querySelector('.upvote-count').textContent = data.upvotes;
+                        comment.querySelector('.downvote-count').textContent = data.downvotes;
+                        
+                        // Update active class
+                        if (data.action === 'added' || data.action === 'changed') {
+                            if (voteType === 'up') {
+                                this.classList.add('active');
+                                comment.querySelector('.downvote').classList.remove('active');
+                            } else {
+                                this.classList.add('active');
+                                comment.querySelector('.upvote').classList.remove('active');
+                            }
+                        } else if (data.action === 'removed') {
+                            this.classList.remove('active');
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
+{% endblock %}

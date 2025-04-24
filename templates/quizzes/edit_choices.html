@@ -1,0 +1,61 @@
+{# templates/quizzes/edit_choices.html #}
+{% extends 'quizzes/base_quiz.html' %}
+
+{% block quiz_title %}Modifier les Choix{% endblock %}
+
+{% block quiz_content %}
+<div class="edit-choices-container">
+    <h1>Modifier les Choix</h1>
+    <p>Question: {{ question.text }}</p>
+    <p>Quiz: {{ question.quiz.title }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        {{ formset.management_form }}
+        
+        <div class="choices-formset">
+            {% for form in formset %}
+                <div class="choice-form">
+                    <div class="form-row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="{{ form.text.id_for_label }}">Texte du choix</label>
+                                {{ form.text }}
+                                {% if form.text.errors %}
+                                    <div class="error-feedback">{{ form.text.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check mt-4">
+                                {{ form.is_correct }}
+                                <label class="form-check-label" for="{{ form.is_correct.id_for_label }}">
+                                    Réponse correcte
+                                </label>
+                                {% if form.is_correct.errors %}
+                                    <div class="error-feedback">{{ form.is_correct.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if form.instance.pk %}
+                        <div class="delete-choice">
+                            {{ form.DELETE }}
+                            <label for="{{ form.DELETE.id_for_label }}">Supprimer ce choix</label>
+                        </div>
+                    {% endif %}
+                    
+                    {{ form.id }}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-warning">Mettre à jour les choix</button>
+            <a href="{% url 'quizzes:quiz_detail' question.quiz.id %}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

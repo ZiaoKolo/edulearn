@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytiques - {{ course.title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Analytiques: {{ course.title }}</h1>
+        <a href="{% url 'courses:edit_course' course.id %}" class="btn btn-outline-primary">Éditer le cours</a>
+    </div>
+    
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Étudiants inscrits</h5>
+                    <p class="display-4">{{ total_students }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Cours complétés</h5>
+                    <p class="display-4">{{ completed_students }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Taux de complétion</h5>
+                    <p class="display-4">{{ completion_rate|floatformat:1 }}%</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content Engagement -->
+    <div class="card shadow mb-4">
+        <div class="card-header bg-white">
+            <h5 class="card-title mb-0">Engagement par contenu</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Contenu</th>
+                            <th>Chapitre</th>
+                            <th>Vues</th>
+                            <th>Complétions</th>
+                            <th>Temps moyen (sec)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in content_engagement %}
+                        <tr>
+                            <td>{{ item.content.title }}</td>
+                            <td>{{ item.content.chapter.title }}</td>
+                            <td>{{ item.views }}</td>
+                            <td>{{ item.completions }}</td>
+                            <td>{{ item.avg_time|floatformat:0 }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="text-center">Aucun contenu disponible</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Student Progress -->
+    <div class="card shadow">
+        <div class="card-header bg-white">
+            <h5 class="card-title mb-0">Progrès des étudiants</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Étudiant</th>
+                            <th>Progrès</th>
+                            <th>Contenu complété</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in student_progress_data %}
+                        <tr>
+                            <td>
+                                {{ student.student.username }}
+                                {% if student.progress_percentage == 100 %}
+                                <span class="badge bg-success ms-2">Complété</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" width=" {{ student.progress_percentage }}%"
+                                        aria-valuenow="{{ student.progress_percentage }}" aria-valuemin="0" aria-valuemax="100">
+                                        {{ student.progress_percentage|floatformat:1 }}%
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ student.completed_content }} / {{ student.total_content }}</td>
+                            <td>
+                               <!-- Assurez-vous que cette ligne est correcte dans votre template -->
+                                  <a href="{% url 'dashboard:contact_student' student.student.id %}?course_id={{ course.id }}" class="btn btn-primary">Contacter</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center">Aucun étudiant inscrit</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

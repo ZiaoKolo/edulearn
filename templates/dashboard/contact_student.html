@@ -1,0 +1,29 @@
+# dashboard/templates/dashboard/contact_student.html
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Contacter {{ student.username }}</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="course_id" value="{{ course_id }}">
+        
+        <div class="form-group mb-3">
+            <label for="subject">Sujet</label>
+            <input type="text" class="form-control" id="subject" name="subject" required>
+        </div>
+        
+        <div class="form-group mb-3">
+            <label for="message">Message</label>
+            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+            <a href="{% url 'dashboard:teacher_course_analytics' course_id=course_id %}" class="btn btn-secondary">Annuler</a>
+            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

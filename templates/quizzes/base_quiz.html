@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Navigation Quiz
+                </div>
+                <div class="list-group list-group-flush">
+                    {% if quiz %}
+                        <a href="{% url 'courses:course_detail' course_id=quiz.course.id %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-arrow-left"></i> Retour au cours
+                        </a>
+                        <a href="{% url 'quizzes:quiz_list' course_id=quiz.course.id %}" class="list-group-item list-group-item-action">
+                            Tous les quiz
+                        </a>
+                        {% if user == quiz.course.teacher %}
+                            <a href="{% url 'quizzes:edit_quiz' quiz_id=quiz.id %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-edit"></i> Modifier le quiz
+                            </a>
+                            <a href="{% url 'quizzes:add_question' quiz_id=quiz.id %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-plus"></i> Ajouter une question
+                            </a>
+                            <a href="{% url 'quizzes:analytics_quiz' quiz_id=quiz.id %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-chart-bar"></i> Analyses
+                            </a>
+                            <a href="{% url 'quizzes:delete_quiz' quiz_id=quiz.id %}" class="list-group-item list-group-item-action text-danger">
+                                <i class="fas fa-trash"></i> Supprimer
+                            </a>
+                        {% endif %}
+                    {% elif course %}
+                        <a href="{% url 'courses:course_detail' course_id=course.id %}" class="list-group-item list-group-item-action">
+                            <i class="fas fa-arrow-left"></i> Retour au cours
+                        </a>
+                        {% if user == course.teacher %}
+                            <a href="{% url 'quizzes:create_quiz' course_id=course.id %}" class="list-group-item list-group-item-action">
+                                <i class="fas fa-plus"></i> Créer un quiz
+                            </a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block quiz_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

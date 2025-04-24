@@ -1,0 +1,23 @@
+{# templates/quizzes/delete_quiz.html #}
+{% extends 'quizzes/base_quiz.html' %}
+
+{% block quiz_title %}Supprimer Quiz{% endblock %}
+
+{% block quiz_content %}
+<div class="delete-quiz-container">
+    <h1>Confirmer la suppression</h1>
+    
+    <div class="alert alert-danger">
+        <p>Êtes-vous sûr de vouloir supprimer le quiz "{{ quiz.title }}" ?</p>
+        <p><strong>Attention:</strong> Cette action est irréversible. Toutes les questions, réponses et résultats associés à ce quiz seront également supprimés.</p>
+    </div>
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-actions">
+            <button type="submit" class="btn btn-danger">Oui, supprimer ce quiz</button>
+            <a href="{% url 'quizzes:quiz_detail' quiz.id %}" class="btn btn-secondary">Non, annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

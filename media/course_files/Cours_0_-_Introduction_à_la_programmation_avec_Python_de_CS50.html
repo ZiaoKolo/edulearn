@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<!-- saved from url=(0071)https://cs50.harvard.edu/python/2022/notes/0/#creating-code-with-python -->
+<html lang="fr" class="wf-ptsans-n4-active wf-ptsans-n7-active wf-active translated-ltr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        
+        <meta name="viewport" content="initial-scale=1, width=device-width"><meta property="og:description" content="An introduction to programming using Python, a popular language for general-purpose programming, data science, web programming, and more.">
+
+        <meta property="og:image" content="https://prod-discovery.edx-cdn.org/media/course/image/2cc794d0-316d-42f7-bbfd-25c34e4cd5df-033e46d516c0.small.png"><meta property="og:title" content="Lecture 0 - CS50&#39;s Introduction to Programming with Python">
+
+        <link href="https://cs50.harvard.edu/python/2022/favicon.ico?1739401496" rel="icon">
+
+        <!-- https://fonts.google.com/specimen/PT+Sans?query=PT+Sans&selection.family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700 -->
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/webfont.js.téléchargement"></script>
+
+        <!-- https://getbootstrap.com/docs/ -->
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/jquery.min.js.téléchargement"></script>
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/bootstrap.bundle.min.js.téléchargement"></script>
+
+        <!-- https://bootstrap-table.com/docs/getting-started/introduction/ -->
+        <link href="./Cours 0 - Introduction à la programmation avec Python de CS50_files/bootstrap-table.min.css" rel="stylesheet">
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/bootstrap-table.min.js.téléchargement"></script>
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/bootstrap-table-mobile.min.js.téléchargement"></script>
+
+        <!-- https://fontawesome.com/how-to-use/on-the-web/referencing-icons/basic-use -->
+        
+        <link crossorigin="anonymous" href="./Cours 0 - Introduction à la programmation avec Python de CS50_files/a6e66aa089.css" rel="stylesheet">
+        
+
+        <!-- https://moment.github.io/luxon/ -->
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/luxon.min.js.téléchargement"></script>
+
+        <!-- http://docs.mathjax.org/ -->
+        <!-- http://docs.mathjax.org/en/latest/options/output/chtml.html?highlight=displayAlign#the-configuration-block -->
+        <script>
+            MathJax = {
+               chtml: {
+                    displayAlign: "left"
+                }
+            };
+        </script>
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/tex-chtml.js.téléchargement"></script><style type="text/css">.CtxtMenu_InfoClose {  top:.2em; right:.2em;}
+.CtxtMenu_InfoContent {  overflow:auto; text-align:left; font-size:80%;  padding:.4em .6em; border:1px inset; margin:1em 0px;  max-height:20em; max-width:30em; background-color:#EEEEEE;  white-space:normal;}
+.CtxtMenu_Info.CtxtMenu_MousePost {outline:none;}
+.CtxtMenu_Info {  position:fixed; left:50%; width:auto; text-align:center;  border:3px outset; padding:1em 2em; background-color:#DDDDDD;  color:black;  cursor:default; font-family:message-box; font-size:120%;  font-style:normal; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 15px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius:15px;               /* Safari and Chrome */  -moz-border-radius:15px;                  /* Firefox */  -khtml-border-radius:15px;                /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */  filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color="gray", Positive="true"); /* IE */}
+</style><style type="text/css">.CtxtMenu_MenuClose {  position:absolute;  cursor:pointer;  display:inline-block;  border:2px solid #AAA;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  font-family: "Courier New", Courier;  font-size:24px;  color:#F0F0F0}
+.CtxtMenu_MenuClose span {  display:block; background-color:#AAA; border:1.5px solid;  border-radius:18px;  -webkit-border-radius: 18px;             /* Safari and Chrome */  -moz-border-radius: 18px;                /* Firefox */  -khtml-border-radius: 18px;              /* Konqueror */  line-height:0;  padding:8px 0 6px     /* may need to be browser-specific */}
+.CtxtMenu_MenuClose:hover {  color:white!important;  border:2px solid #CCC!important}
+.CtxtMenu_MenuClose:hover span {  background-color:#CCC!important}
+.CtxtMenu_MenuClose:hover:focus {  outline:none}
+</style><style type="text/css">.CtxtMenu_Menu {  position:absolute;  background-color:white;  color:black;  width:auto; padding:5px 0px;  border:1px solid #CCCCCC; margin:0; cursor:default;  font: menu; text-align:left; text-indent:0; text-transform:none;  line-height:normal; letter-spacing:normal; word-spacing:normal;  word-wrap:normal; white-space:nowrap; float:none; z-index:201;  border-radius: 5px;                     /* Opera 10.5 and IE9 */  -webkit-border-radius: 5px;             /* Safari and Chrome */  -moz-border-radius: 5px;                /* Firefox */  -khtml-border-radius: 5px;              /* Konqueror */  box-shadow:0px 10px 20px #808080;         /* Opera 10.5 and IE9 */  -webkit-box-shadow:0px 10px 20px #808080; /* Safari 3 & Chrome */  -moz-box-shadow:0px 10px 20px #808080;    /* Forefox 3.5 */  -khtml-box-shadow:0px 10px 20px #808080;  /* Konqueror */}
+.CtxtMenu_MenuItem {  padding: 1px 2em;  background:transparent;}
+.CtxtMenu_MenuArrow {  position:absolute; right:.5em; padding-top:.25em; color:#666666;  font-family: null; font-size: .75em}
+.CtxtMenu_MenuActive .CtxtMenu_MenuArrow {color:white}
+.CtxtMenu_MenuArrow.CtxtMenu_RTL {left:.5em; right:auto}
+.CtxtMenu_MenuCheck {  position:absolute; left:.7em;  font-family: null}
+.CtxtMenu_MenuCheck.CtxtMenu_RTL { right:.7em; left:auto }
+.CtxtMenu_MenuRadioCheck {  position:absolute; left: .7em;}
+.CtxtMenu_MenuRadioCheck.CtxtMenu_RTL {  right: .7em; left:auto}
+.CtxtMenu_MenuInputBox {  padding-left: 1em; right:.5em; color:#666666;  font-family: null;}
+.CtxtMenu_MenuInputBox.CtxtMenu_RTL {  left: .1em;}
+.CtxtMenu_MenuComboBox {  left:.1em; padding-bottom:.5em;}
+.CtxtMenu_MenuSlider {  left: .1em;}
+.CtxtMenu_SliderValue {  position:absolute; right:.1em; padding-top:.25em; color:#333333;  font-size: .75em}
+.CtxtMenu_SliderBar {  outline: none; background: #d3d3d3}
+.CtxtMenu_MenuLabel {  padding: 1px 2em 3px 1.33em;  font-style:italic}
+.CtxtMenu_MenuRule {  border-top: 1px solid #DDDDDD;  margin: 4px 3px;}
+.CtxtMenu_MenuDisabled {  color:GrayText}
+.CtxtMenu_MenuActive {  background-color: #606872;  color: white;}
+.CtxtMenu_MenuDisabled:focus {  background-color: #E8E8E8}
+.CtxtMenu_MenuLabel:focus {  background-color: #E8E8E8}
+.CtxtMenu_ContextMenu:focus {  outline:none}
+.CtxtMenu_ContextMenu .CtxtMenu_MenuItem:focus {  outline:none}
+.CtxtMenu_SelectionMenu {  position:relative; float:left;  border-bottom: none; -webkit-box-shadow:none; -webkit-border-radius:0px; }
+.CtxtMenu_SelectionItem {  padding-right: 1em;}
+.CtxtMenu_Selection {  right: 40%; width:50%; }
+.CtxtMenu_SelectionBox {  padding: 0em; max-height:20em; max-width: none;  background-color:#FFFFFF;}
+.CtxtMenu_SelectionDivider {  clear: both; border-top: 2px solid #000000;}
+.CtxtMenu_Menu .CtxtMenu_MenuClose {  top:-10px; left:-10px}
+</style>
+
+        <!-- https://github.com/verlok/vanilla-lazyload -->
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/intersection-observer.js.téléchargement"></script>
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/lazyload.min.js.téléchargement"></script>
+
+        <!-- https://github.com/davidjbradshaw/iframe-resizer -->
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/iframeResizer.min.js.téléchargement"></script>
+
+        <!-- https://github.com/scratchblocks/scratchblocks/releases -->
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/scratchblocks.min.js.téléchargement"></script><style><![CDATA[.sb-label{font-family:Lucida Grande,Verdana,Arial,DejaVu Sans,sans-serif;font-weight:700;fill:#fff;font-size:10px;word-spacing:1px}.sb-obsolete{fill:#d42828}.sb-motion{fill:#4a6cd4}.sb-looks{fill:#8a55d7}.sb-sound{fill:#bb42c3}.sb-pen{fill:#0e9a6c}.sb-events{fill:#c88330}.sb-control{fill:#e1a91a}.sb-sensing{fill:#2ca5e2}.sb-operators{fill:#5cb712}.sb-variables{fill:#ee7d16}.sb-list{fill:#cc5b22}.sb-custom{fill:#632d99}.sb-custom-arg{fill:#5947b1}.sb-extension{fill:#4b4a60}.sb-grey{fill:#969696}.sb-bevel{filter:url(#bevelFilter)}.sb-input{filter:url(#inputBevelFilter)}.sb-input-number,.sb-input-number-dropdown,.sb-input-string{fill:#fff}.sb-literal-dropdown,.sb-literal-number,.sb-literal-number-dropdown,.sb-literal-string{font-weight:400;font-size:9px;word-spacing:0}.sb-literal-number,.sb-literal-number-dropdown,.sb-literal-string{fill:#000}.sb-darker{filter:url(#inputDarkFilter)}.sb-outline{stroke:#fff;stroke-opacity:.2;stroke-width:2;fill:none}.sb-comment,.sb-define-hat-cap{stroke:#632d99;stroke-width:1;fill:#8e2ec2}.sb-comment{fill:#ffffa5;stroke:#d0d1d2}.sb-comment-line{fill:#ffff80}.sb-comment-label{font-family:Helvetica,Arial,DejaVu Sans,sans-serif;font-weight:700;fill:#5c5d5f;word-spacing:0;font-size:12px}.sb-diff{fill:none;stroke:#000}.sb-diff-ins{stroke-width:2px}.sb-diff-del{stroke-width:3px}]]></style><style><![CDATA[.sb3-label{font:500 12pt Helvetica Neue,Helvetica,sans-serif;word-spacing:1pt}.sb3-literal-dropdown,.sb3-literal-number,.sb3-literal-number-dropdown,.sb3-literal-string{word-spacing:0}.sb3-diff{fill:none;stroke:#000}.sb3-diff-ins{stroke-width:2px}.sb3-diff-del{stroke-width:3px}svg .sb3-motion{fill:#4c97ff;stroke:#3373cc}svg .sb3-motion-alt{fill:#4280d7}svg .sb3-motion-dark{fill:#3373cc}svg .sb3-looks{fill:#96f;stroke:#774dcb}svg .sb3-looks-alt{fill:#855cd6}svg .sb3-looks-dark{fill:#774dcb}svg .sb3-sound{fill:#cf63cf;stroke:#bd42bd}svg .sb3-sound-alt{fill:#c94fc9}svg .sb3-sound-dark{fill:#bd42bd}svg .sb3-control{fill:#ffab19;stroke:#cf8b17}svg .sb3-control-alt{fill:#ec9c13}svg .sb3-control-dark{fill:#cf8b17}svg .sb3-events{fill:#ffbf00;stroke:#c90}svg .sb3-events-alt{fill:#e6ac00}svg .sb3-events-dark{fill:#c90}svg .sb3-sensing{fill:#5cb1d6;stroke:#2e8eb8}svg .sb3-sensing-alt{fill:#47a8d1}svg .sb3-sensing-dark{fill:#2e8eb8}svg .sb3-operators{fill:#59c059;stroke:#389438}svg .sb3-operators-alt{fill:#46b946}svg .sb3-operators-dark{fill:#389438}svg .sb3-variables{fill:#ff8c1a;stroke:#db6e00}svg .sb3-variables-alt{fill:#ff8000}svg .sb3-variables-dark{fill:#db6e00}svg .sb3-list{fill:#ff661a;stroke:#e64d00}svg .sb3-list-alt{fill:#f50}svg .sb3-list-dark{fill:#e64d00}svg .sb3-custom{fill:#ff6680;stroke:#f35}svg .sb3-custom-alt{fill:#ff4d6a}svg .sb3-custom-dark{fill:#f35}svg .sb3-extension{fill:#0fbd8c;stroke:#0b8e69}svg .sb3-extension-alt{fill:#0da57a}svg .sb3-extension-dark{fill:#0b8e69}svg .sb3-obsolete{fill:#ed4242;stroke:#ca2b2b}svg .sb3-obsolete-alt{fill:#db3333}svg .sb3-obsolete-dark{fill:#ca2b2b}svg .sb3-grey{fill:#bfbfbf;stroke:#909090}svg .sb3-grey-alt{fill:#b2b2b2}svg .sb3-grey-dark{fill:#909090}svg .sb3-label{fill:#fff}svg .sb3-input-color{stroke:#fff}svg .sb3-input-number,svg .sb3-input-string{fill:#fff}svg .sb3-literal-number,svg .sb3-literal-string{fill:#575e75}svg .sb3-custom-arg{fill:#ff6680;stroke:#f35}svg.scratchblocks-style-scratch3-high-contrast .sb3-motion{fill:#80b5ff;stroke:#3373cc}svg.scratchblocks-style-scratch3-high-contrast .sb3-motion-alt{fill:#b3d2ff}svg.scratchblocks-style-scratch3-high-contrast .sb3-motion-dark{fill:#3373cc}svg.scratchblocks-style-scratch3-high-contrast .sb3-looks{fill:#ccb3ff;stroke:#774dcb}svg.scratchblocks-style-scratch3-high-contrast .sb3-looks-alt{fill:#dcf}svg.scratchblocks-style-scratch3-high-contrast .sb3-looks-dark{fill:#774dcb}svg.scratchblocks-style-scratch3-high-contrast .sb3-sound{fill:#e19de1;stroke:#bd42bd}svg.scratchblocks-style-scratch3-high-contrast .sb3-sound-alt{fill:#ffb3ff}svg.scratchblocks-style-scratch3-high-contrast .sb3-sound-dark{fill:#bd42bd}svg.scratchblocks-style-scratch3-high-contrast .sb3-control{fill:#ffbe4c;stroke:#cf8b17}svg.scratchblocks-style-scratch3-high-contrast .sb3-control-alt{fill:#ffda99}svg.scratchblocks-style-scratch3-high-contrast .sb3-control-dark{fill:#cf8b17}svg.scratchblocks-style-scratch3-high-contrast .sb3-events{fill:#ffd966;stroke:#c90}svg.scratchblocks-style-scratch3-high-contrast .sb3-events-alt{fill:#ffecb3}svg.scratchblocks-style-scratch3-high-contrast .sb3-events-dark{fill:#c90}svg.scratchblocks-style-scratch3-high-contrast .sb3-sensing{fill:#85c4e0;stroke:#2e8eb8}svg.scratchblocks-style-scratch3-high-contrast .sb3-sensing-alt{fill:#aed8ea}svg.scratchblocks-style-scratch3-high-contrast .sb3-sensing-dark{fill:#2e8eb8}svg.scratchblocks-style-scratch3-high-contrast .sb3-operators{fill:#7ece7e;stroke:#389438}svg.scratchblocks-style-scratch3-high-contrast .sb3-operators-alt{fill:#b5e3b5}svg.scratchblocks-style-scratch3-high-contrast .sb3-operators-dark{fill:#389438}svg.scratchblocks-style-scratch3-high-contrast .sb3-variables{fill:#ffa54c;stroke:#db6e00}svg.scratchblocks-style-scratch3-high-contrast .sb3-variables-alt{fill:#fc9}svg.scratchblocks-style-scratch3-high-contrast .sb3-variables-dark{fill:#db6e00}svg.scratchblocks-style-scratch3-high-contrast .sb3-list{fill:#f96;stroke:#e64d00}svg.scratchblocks-style-scratch3-high-contrast .sb3-list-alt{fill:#ffcab0}svg.scratchblocks-style-scratch3-high-contrast .sb3-list-dark{fill:#e64d00}svg.scratchblocks-style-scratch3-high-contrast .sb3-custom{fill:#f9a;stroke:#e64d00}svg.scratchblocks-style-scratch3-high-contrast .sb3-custom-alt{fill:#ffccd5}svg.scratchblocks-style-scratch3-high-contrast .sb3-custom-dark{fill:#e64d00}svg.scratchblocks-style-scratch3-high-contrast .sb3-extension{fill:#13ecaf;stroke:#0b8e69}svg.scratchblocks-style-scratch3-high-contrast .sb3-extension-alt{fill:#75f0cd}svg.scratchblocks-style-scratch3-high-contrast .sb3-extension-dark{fill:#0b8e69}svg.scratchblocks-style-scratch3-high-contrast .sb3-obsolete{fill:#fc6666;stroke:#d32121}svg.scratchblocks-style-scratch3-high-contrast .sb3-obsolete-alt{fill:#fcb0b0}svg.scratchblocks-style-scratch3-high-contrast .sb3-obsolete-dark{fill:#d32121}svg.scratchblocks-style-scratch3-high-contrast .sb3-grey{fill:#bfbfbf;stroke:#959595}svg.scratchblocks-style-scratch3-high-contrast .sb3-grey-alt{fill:#b2b2b2}svg.scratchblocks-style-scratch3-high-contrast .sb3-grey-dark{fill:#959595}svg.scratchblocks-style-scratch3-high-contrast .sb3-label{fill:#000}svg.scratchblocks-style-scratch3-high-contrast .sb3-input-color{stroke:#fff}svg.scratchblocks-style-scratch3-high-contrast .sb3-input-number,svg.scratchblocks-style-scratch3-high-contrast .sb3-input-string{fill:#fff}svg.scratchblocks-style-scratch3-high-contrast .sb3-literal-number,svg.scratchblocks-style-scratch3-high-contrast .sb3-literal-string{fill:#000}svg.scratchblocks-style-scratch3-high-contrast .sb3-custom-arg{fill:#f9a;stroke:#e64d00}.sb3-comment{fill:#ffffa5;stroke:#d0d1d2;stroke-width:1}.sb3-comment-line{fill:#ffff80}.sb3-comment-label,.sb3-label.sb3-comment-label{font:400 12pt Helvetica Neue,Helvetica,sans-serif;fill:#000;word-spacing:0}]]></style>
+
+        <!-- https://mermaid-js.github.io/ -->
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/mermaid.min.js.téléchargement"></script>
+
+        <!-- https://github.com/twitter/twemoji -->
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/twemoji.min.js.téléchargement"></script>
+
+        
+
+        <link href="./Cours 0 - Introduction à la programmation avec Python de CS50_files/page.css" rel="stylesheet">
+        <link rel="stylesheet" href="./Cours 0 - Introduction à la programmation avec Python de CS50_files/css" media="all"><script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/jekyll-theme-cs50.js.téléchargement"></script>
+
+        <script>
+            window.CS50 = {
+                local: {"day":"numeric","hour":"numeric","minute":"numeric","month":"long","timeZoneName":"short","weekday":"long","year":"numeric"},
+                locale: "en",
+                tz: "Etc/Zulu"
+            };
+        </script>
+
+        <title>Cours 0 - Introduction à la programmation avec Python de CS50</title>
+
+
+    <style id="MJX-CHTML-styles">
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-assistive-mml {
+  position: absolute !important;
+  top: 0px;
+  left: 0px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 1px 0px 0px 0px !important;
+  border: 0px !important;
+  display: block !important;
+  width: auto !important;
+  overflow: hidden !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+mjx-assistive-mml[display="block"] {
+  width: 100% !important;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cs50.harvard.edu/python/2022/assets/mathjax/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style><link type="text/css" rel="stylesheet" charset="UTF-8" href="./Cours 0 - Introduction à la programmation avec Python de CS50_files/m=el_main_css"></head>
+
+    <body class="">
+
+        
+        
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <aside class="col-lg" style="height: 730px; top: 0px;">
+ 
+                    <header><h1 data-id="cs50s-introduction-to-programming-with-python"><a href="https://cs50.harvard.edu/python/2022/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Introduction à la programmation avec Python du cours CS50</font></font></a></h1>
+
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cours ouvert</font></font></p>
+
+<p><a class="pr-1 small" href="https://cs50.harvard.edu/donate"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Faire un don</font></font><i aria-hidden="true" class="fas fa-external-link-alt ps-2"></i></a></p>
+
+<p><a href="https://cs.harvard.edu/malan/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">David J. Malan </font></font></a>
+<br>
+<a href="mailto:malan@harvard.edu"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">malan@harvard.edu</font></font></a>
+<br>
+<a class="mr-1" href="https://www.facebook.com/dmalan"><i aria-hidden="true" class="fa-brands fa-facebook-f" title="Facebook"></i><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Facebook</font></font></span></a>
+<a class="mr-1" href="https://github.com/dmalan"><i aria-hidden="true" class="fa-brands fa-github" title="GitHub"></i><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GitHub</font></font></span></a>
+<a class="mr-1" href="https://www.instagram.com/davidjmalan/"><i aria-hidden="true" class="fa-brands fa-instagram" title="Instagram"></i><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instagram</font></font></span></a>
+<a class="mr-1" href="https://www.linkedin.com/in/malan/"><i aria-hidden="true" class="fa-brands fa-linkedin" title="LinkedIn"></i><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">LinkedIn</font></font></span></a>
+<a class="mr-1" href="https://www.reddit.com/user/davidjmalan"><i aria-hidden="true" class="fa-brands fa-reddit-alien" title="Reddit"></i><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Reddit</font></font></span></a>
+<a class="mr-1" href="https://www.threads.net/@davidjmalan"><i aria-hidden="true" class="fa-brands fa-threads" title="Fils"></i><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fils</font></font></span></a>
+<a class="mr-1" href="https://twitter.com/davidjmalan"><i aria-hidden="true" class="fa-brands fa-twitter" title="Gazouillement"></i><span class="sr-only"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Gazouillement</font></font></span></a></p></header>
+
+                    
+
+                    <button aria-controls="nav" aria-expanded="false" class="btn btn-sm collapsed d-lg-none" data-bs-target="aside &gt; nav" data-bs-toggle="collapse"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                        Menu
+                    </font></font></button>
+
+                    <nav class="collapse d-lg-block" id="nav"><hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/x/puzzles/"><i class="fas fa-puzzle-piece pe-2"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Journée de puzzle CS50x 2025</font></font><span class="badge ms-2 p-1 text-bg-warning"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nouveau</font></font></span></a></li>
+</ul>
+
+<!-- Tools -->
+<hr class="small">
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.ai/"><i class="fa-solid fa-duck pe-2 text-decoration-none"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50.ai</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.edx.org/ed"><i class="fa-solid fa-comment-question pe-2 text-decoration-none"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Discussion Ed</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> pour questions et réponses</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.dev/"><i class="fa-solid fa-laptop pe-2 text-decoration-none"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Code de Visual Studio</font></font></a></li>
+</ul>
+
+<!-- Course Nav -->
+<hr>
+
+<ol start="0">
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/0/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fonctions, variables</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/1/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Les conditionnels</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/2/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Boucles</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/3/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Exceptions</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/4/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bibliothèques</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/5/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tests unitaires</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/6/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fichier E/S</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/7/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Expressions régulières</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/8/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Programmation orientée objet</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/weeks/9/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Et cetera</font></font></a></li>
+</ol>
+
+<hr>
+
+<!-- Final project spec, seminars, shorts -->
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/project/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Projet final</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/gallery/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Galerie des projets finaux</font></font><span aria-hidden="true" class="ps-2 text-decoration-none"><img draggable="false" class="emoji" alt="🖼️" src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/1f5bc.png"> </span></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/shorts/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Shorts</font></font></a></li>
+</ul>
+
+<!-- Items that might usually appear in an academic syllabus -->
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/honesty/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Honnêteté académique</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/certificate/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Certificat CS50</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/faqs/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">FAQ</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.me/cs50p"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Carnet de notes</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/staff/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Personnel</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span></li>
+</ul>
+
+<!-- Where to watch or take the class course -->
+<hr>
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://apps.apple.com/us/app/cs50/id1631064453"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Apple TV</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.edx.org/python"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">edX</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://play.google.com/store/apps/details?id=edu.harvard.cs50.googletv"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Google TV</font></font></a></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://youtube.com/playlist?list=PLhQjrBD2T3817j24-GogXmWqO5Q5vYy0V"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">YouTube</font></font></a></li>
+</ul>
+
+<!-- Manual page, style guide, other docs -->
+
+<!-- Status Page -->
+<hr>
+
+<ul class="small fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.statuspage.io/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Page d'état</font></font></a></li>
+</ul>
+
+<!-- Communities -->
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/communities/"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Communautés</font></font></strong></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://bsky.app/profile/cs50.harvard.edu"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ciel bleu</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.clubhouse.com/club/cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Clubhouse</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://discord.gg/cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Discorde</font></font></a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Questions et réponses</font></font></span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.edx.org/ed"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Éd</font></font></a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Questions et réponses</font></font></span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.facebook.com/groups/cs50/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Groupe Facebook</font></font></a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Questions et réponses</font></font></span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.facebook.com/cs50/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Page Facebook</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://github.com/cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">GitHub</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://gitter.im/cs50/x"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Gitter</font></font></a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Questions et réponses</font></font></span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://instagram.com/cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Instagram</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.linkedin.com/groups/7437240/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Groupe LinkedIn</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.linkedin.com/school/CS50/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Page LinkedIn</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.medium.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Moyen</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.quora.com/topic/CS50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Quora</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.reddit.com/r/cs50/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Reddit</font></font></a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Questions et réponses</font></font></span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.edx.org/slack"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Mou</font></font></a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Questions et réponses</font></font></span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.snapchat.com/add/cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Snapchat</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://soundcloud.com/cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">SoundCloud</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.stackexchange.com/"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Échange de pile</font></font></a> <span class="badge bg-light ms-1 py-1 rounded-pill text-dark"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Questions et réponses</font></font></span></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://t.me/cs50x"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Télégramme</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.tiktok.com/@cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">TikTok</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://www.threads.net/@cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fils</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://twitter.com/cs50"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Compte Twitter</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://twitter.com/i/communities/1722308663522594923"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Communauté Twitter</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="http://www.youtube.com/subscription_center?add_user=cs50tv"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">YouTube</font></font></a></li>
+</ul>
+
+<!-- Courses -->
+<hr>
+
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/python/2022/courses/"><strong><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cours</font></font></strong></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/x"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50x</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/ai"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50 IA</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/business"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50 Affaires</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="https://cs50.harvard.edu/cybersecurity"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50 Cybersécurité</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="http://cs50.harvard.edu/law"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50 pour les avocats</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="http://cs50.harvard.edu/python"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50 Python</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="http://cs50.harvard.edu/r"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50 R</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="http://cs50.harvard.edu/scratch"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Gratte-ciel CS50</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="http://cs50.harvard.edu/sql"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50 SQL</font></font></a></li>
+  <li data-marker="*" class="small"><span class="fa-li"><i class="fas fa-square"></i></span><a href="http://cs50.harvard.edu/web"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">CS50 Web</font></font></a></li>
+</ul>
+
+<!-- Harvard Shop -->
+<hr>
+
+<p><a href="https://cs50.harvardshop.com/"><img src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/shop.png" alt="Boutique Harvard"></a></p>
+
+<!-- Legal -->
+<hr>
+
+<p><a href="https://cs50.harvard.edu/python/2022/license/" class="small"><i class="fab fa-creative-commons me-1"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Licence</font></font></a></p></nav>
+
+                    <footer></footer>
+
+                </aside>
+
+                <main class="col-lg" style="margin-bottom: 222px; margin-top: 0px;">
+
+                    <a data-id="" id="lecture-0" style="top: 0px;"></a><h1 class="no_toc"><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#lecture-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Conférence 0</font></font></a></h1>
+
+<ul id="markdown-toc">
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#creating-code-with-python" id="markdown-toc-creating-code-with-python"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Créer du code avec Python</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#functions" id="markdown-toc-functions"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fonctions</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#bugs" id="markdown-toc-bugs"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Insectes</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#improving-your-first-python-program" id="markdown-toc-improving-your-first-python-program"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Améliorer votre premier programme Python</font></font></a>    <ul>
+      <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#variables" id="markdown-toc-variables"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Variables</font></font></a></li>
+      <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#comments" id="markdown-toc-comments"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Commentaires</font></font></a></li>
+      <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#pseudocode" id="markdown-toc-pseudocode"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pseudo-code</font></font></a></li>
+    </ul>
+  </li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#further-improving-your-first-python-program" id="markdown-toc-further-improving-your-first-python-program"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Améliorer davantage votre premier programme Python</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#strings-and-paremeters" id="markdown-toc-strings-and-paremeters"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Chaînes et paramètres</font></font></a>    <ul>
+      <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#a-small-problem-with-quotation-marks" id="markdown-toc-a-small-problem-with-quotation-marks"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Un petit problème avec les guillemets</font></font></a></li>
+    </ul>
+  </li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#formatting-strings" id="markdown-toc-formatting-strings"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Formatage des chaînes</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#more-on-strings" id="markdown-toc-more-on-strings"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En savoir plus sur les cordes</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#integers-or-int" id="markdown-toc-integers-or-int"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Entiers ou int</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#readability-wins" id="markdown-toc-readability-wins"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">La lisibilité l'emporte</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#float-basics" id="markdown-toc-float-basics"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Notions de base sur le flotteur</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#more-on-floats" id="markdown-toc-more-on-floats"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En savoir plus sur les flotteurs</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#def" id="markdown-toc-def"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Déf</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#returning-values" id="markdown-toc-returning-values"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valeurs de retour</font></font></a></li>
+  <li><a href="https://cs50.harvard.edu/python/2022/notes/0/#summing-up" id="markdown-toc-summing-up"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En résumé</font></font></a></li>
+</ul>
+
+<a data-id="" id="creating-code-with-python" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#creating-code-with-python"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Créer du code avec Python</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">VS Code est un type spécial d'éditeur de texte appelé compilateur. En haut, vous remarquerez un éditeur de texte. En bas, vous verrez un terminal dans lequel vous pouvez exécuter des commandes.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dans le terminal, vous pouvez exécuter </font></font><code class="language-plaintext highlighter-rouge">code hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pour commencer le codage.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dans l'éditeur de texte ci-dessus, vous pouvez saisir </font></font><code class="language-plaintext highlighter-rouge">print("hello, world")</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Il s'agit d'un programme canonique célèbre que presque tous les codeurs écrivent au cours de leur processus d'apprentissage.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dans la fenêtre du terminal, vous pouvez exécuter des commandes. Pour exécuter ce programme, vous allez devoir déplacer votre curseur vers le bas de l'écran, en cliquant dans la fenêtre du terminal. Vous pouvez maintenant saisir une deuxième commande dans la fenêtre du terminal. À côté du signe dollar, saisissez </font></font><code class="language-plaintext highlighter-rouge">python hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">et appuyez sur la touche Entrée de votre clavier.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rappelons que les ordinateurs ne comprennent en réalité que les zéros et les uns. Par conséquent, lorsque vous exécutez </font></font><code class="language-plaintext highlighter-rouge">python hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, Python interprète le texte que vous avez créé </font></font><code class="language-plaintext highlighter-rouge">hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">et le traduit en zéros et en uns que l'ordinateur peut comprendre.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Le résultat de l’exécution du </font></font><code class="language-plaintext highlighter-rouge">python hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">programme est </font></font><code class="language-plaintext highlighter-rouge">hello, world</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Félicitations ! Vous venez de créer votre premier programme.</font></font></li>
+</ul>
+
+<a data-id="" id="functions" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#functions"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fonctions</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Les fonctions sont des verbes ou des actions que l’ordinateur ou le langage informatique sait déjà exécuter.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dans votre </font></font><code class="language-plaintext highlighter-rouge">hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">programme, la </font></font><code class="language-plaintext highlighter-rouge">print</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction sait comment imprimer dans la fenêtre du terminal.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">La </font></font><code class="language-plaintext highlighter-rouge">print</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction prend des arguments. Dans ce cas, </font></font><code class="language-plaintext highlighter-rouge">"hello, world"</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ce sont les arguments que la </font></font><code class="language-plaintext highlighter-rouge">print</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction prend.</font></font></li>
+</ul>
+
+<a data-id="" id="bugs" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#bugs"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Insectes</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Les bugs font partie intégrante du codage. Ce sont des erreurs, des problèmes que vous devez résoudre&nbsp;! Ne vous découragez pas&nbsp;! Cela fait partie du processus pour devenir un excellent programmeur.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Imaginez que dans notre </font></font><code class="language-plaintext highlighter-rouge">hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">programme, nous avons tapé accidentellement </font></font><code class="language-plaintext highlighter-rouge">print("hello, world"</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">notice et que nous avons oublié la dernière </font></font><code class="language-plaintext highlighter-rouge">)</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">instruction requise par le compilateur. Si je fais volontairement cette erreur, le compilateur affichera une erreur dans la fenêtre du terminal&nbsp;!</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Souvent, les messages d'erreur vous informeront de vos erreurs et vous fourniront des indices sur la façon de les corriger. Cependant, il y aura de nombreuses fois où le compilateur ne sera pas de ce type.</font></font></li>
+</ul>
+
+<a data-id="" id="improving-your-first-python-program" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#improving-your-first-python-program"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Améliorer votre premier programme Python</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons personnaliser votre premier programme Python.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dans notre éditeur de texte, </font></font><code class="language-plaintext highlighter-rouge">hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nous pouvons ajouter une autre fonction. </font></font><code class="language-plaintext highlighter-rouge">input</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">est une fonction qui prend une invite comme argument. Nous pouvons éditer notre code pour dire</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello, world</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cette modification seule ne permettra cependant pas à votre programme de sortir ce que votre utilisateur saisit. Pour cela, nous devrons vous présenter les variables</font></font></li>
+</ul>
+
+<a data-id="" id="variables" style="top: 0px;"></a><h3><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#variables"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Variables</font></font></a></h3>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Une variable est simplement un conteneur pour une valeur dans votre propre programme.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dans votre programme, vous pouvez introduire votre propre variable dans votre programme en la modifiant pour la lire</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello, world</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Notez que ce </font></font><code class="language-plaintext highlighter-rouge">=</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">signe égal au milieu de </font></font><code class="language-plaintext highlighter-rouge">name = input("What's your name? ")</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">a un rôle particulier dans la programmation. Ce signe égal affecte littéralement ce qui est à droite à ce qui est à gauche. Par conséquent, la valeur renvoyée par </font></font><code class="language-plaintext highlighter-rouge">input("What's your name? ")</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">est affectée à </font></font><code class="language-plaintext highlighter-rouge">name</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Si vous modifiez votre code comme suit, vous remarquerez une erreur</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello, name</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Le programme reviendra </font></font><code class="language-plaintext highlighter-rouge">hello, name</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dans la fenêtre du terminal, indépendamment de ce que l'utilisateur tape.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En éditant davantage notre code, vous pouvez taper</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Le résultat dans la fenêtre du terminal serait</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">What</span><span class="sh">'</span><span class="s">s your name? David
+hello
+David
+</span></code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous nous rapprochons du résultat que nous pourrions espérer !</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous pouvez en apprendre davantage dans la documentation de Python sur </font></font><a href="https://docs.python.org/3/library/datatypes.html"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">les types de données</font></font></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> .</font></font></li>
+</ul>
+
+<a data-id="" id="comments" style="top: 0px;"></a><h3><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#comments"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Commentaires</font></font></a></h3>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Les commentaires sont un moyen pour les programmeurs de suivre ce qu'ils font dans leurs programmes et même d'informer les autres de leurs intentions concernant un bloc de code. En bref, ce sont des notes pour vous-même et pour les autres qui verront votre code&nbsp;!</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous pouvez ajouter des commentaires à votre programme pour voir ce que fait votre programme. Vous pouvez modifier votre code comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Les commentaires peuvent également vous servir de liste de tâches à accomplir.</font></font></li>
+</ul>
+
+<a data-id="" id="pseudocode" style="top: 0px;"></a><h3><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#pseudocode"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pseudo-code</font></font></a></h3>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Le pseudo-code est un type de commentaire important qui devient un type spécial de liste de tâches à effectuer, en particulier lorsque vous ne comprenez pas comment accomplir une tâche de codage. Par exemple, dans votre code, vous pouvez modifier votre code pour dire&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Print hello
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Print the name inputted
+</span><span class="nf">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<a data-id="" id="further-improving-your-first-python-program" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#further-improving-your-first-python-program"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Améliorer davantage votre premier programme Python</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons encore éditer notre code comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Print hello and the inputted name
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello, </span><span class="sh">"</span> <span class="o">+</span> <span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Il s'avère que certaines fonctions prennent de nombreux arguments.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons utiliser une virgule </font></font><code class="language-plaintext highlighter-rouge">,</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pour transmettre plusieurs arguments en modifiant notre code comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Print hello and the inputted name
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">La sortie dans le terminal, si nous tapions « David », nous serions </font></font><code class="language-plaintext highlighter-rouge">hello, David</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Succès.</font></font></p>
+  </li>
+</ul>
+
+<a data-id="" id="strings-and-paremeters" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#strings-and-paremeters"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Chaînes et paramètres</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Une chaîne, appelée a </font></font><code class="language-plaintext highlighter-rouge">str</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">en Python, est une séquence de texte.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En revenant un peu en arrière dans notre code pour revenir à ce qui suit, il y avait un effet secondaire visuel de voir le résultat apparaître sur plusieurs lignes&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Les fonctions prennent des arguments qui influencent leur comportement. Si nous regardons la documentation, </font></font><a href="https://docs.python.org/3/library/functions.html#print"><code class="language-plaintext highlighter-rouge">print</code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">vous remarquerez que nous pouvons en apprendre beaucoup sur les arguments que prend la fonction print.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En regardant cette documentation, vous apprendrez que la fonction d'impression inclut automatiquement un morceau de code </font></font><code class="language-plaintext highlighter-rouge">end='\n'. This </code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">\n </font></font><code class="language-plaintext highlighter-rouge"> indicates that the print function will automatically create a line break when run. The print function takes an argument called </code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">end` et que la valeur par défaut est de créer une nouvelle ligne.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cependant, nous pouvons techniquement fournir un argument pour </font></font><code class="language-plaintext highlighter-rouge">end</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nous-mêmes afin qu'une nouvelle ligne ne soit pas créée&nbsp;!</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons modifier notre code comme suit :</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sh">""</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En fournissant, </font></font><code class="language-plaintext highlighter-rouge">end=""</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nous écrasons la valeur par défaut de </font></font><code class="language-plaintext highlighter-rouge">end</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">telle sorte qu'elle ne crée jamais de nouvelle ligne après cette première instruction print. En fournissant le nom « David », la sortie dans la fenêtre du terminal sera </font></font><code class="language-plaintext highlighter-rouge">hello, David</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Les paramètres sont donc des arguments qui peuvent être pris par une fonction.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous pouvez en apprendre plus dans la documentation de Python sur </font></font><a href="https://docs.python.org/3/library/functions.html#print"><code class="language-plaintext highlighter-rouge">print</code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></li>
+</ul>
+
+<a data-id="" id="a-small-problem-with-quotation-marks" style="top: 0px;"></a><h3><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#a-small-problem-with-quotation-marks"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Un petit problème avec les guillemets</font></font></a></h3>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Remarquez à quel point l’ajout de guillemets dans votre chaîne est un défi.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><code class="language-plaintext highlighter-rouge">print("hello,"friend"")</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ne fonctionnera pas et le compilateur renverra une erreur.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En général, il existe deux approches pour résoudre ce problème. Tout d'abord, vous pouvez simplement remplacer les guillemets par des guillemets simples.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Une autre approche, plus couramment utilisée, consiste à coder comme suit</font></font><code class="language-plaintext highlighter-rouge">print("hello, \"friend\"")</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">&nbsp;: . Les barres obliques inverses indiquent au compilateur que le caractère suivant doit être considéré comme un guillemet dans la chaîne et éviter une erreur du compilateur.</font></font></li>
+</ul>
+
+<a data-id="" id="formatting-strings" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#formatting-strings"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Formatage des chaînes</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">La manière la plus élégante d’utiliser des chaînes serait probablement la suivante&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Notez le </font></font><code class="language-plaintext highlighter-rouge">f</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">in </font></font><code class="language-plaintext highlighter-rouge">print(f"hello, {name}")</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Il </font></font><code class="language-plaintext highlighter-rouge">f</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">s'agit d'un indicateur spécial pour Python qui permet de traiter cette chaîne d'une manière spéciale, différente des approches précédentes que nous avons illustrées dans ce cours. Attendez-vous à utiliser ce style de chaîne assez fréquemment dans ce cours.</font></font></p>
+  </li>
+</ul>
+
+<a data-id="" id="more-on-strings" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#more-on-strings"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En savoir plus sur les cordes</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous ne devez jamais vous attendre à ce que votre utilisateur coopère comme prévu. Par conséquent, vous devrez vous assurer que les saisies de votre utilisateur sont corrigées ou vérifiées.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Il s'avère que la possibilité de supprimer les espaces d'une chaîne est intégrée aux chaînes.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En utilisant la méthode </font></font><code class="language-plaintext highlighter-rouge">strip</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">on </font></font><code class="language-plaintext highlighter-rouge">name</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">as </font></font><code class="language-plaintext highlighter-rouge">name = name.strip()</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, tous les espaces à gauche et à droite de la saisie de l'utilisateur seront supprimés. Vous pouvez modifier votre code pour qu'il soit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Remove whitespace from the str
+</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span><font></font>
+<font></font>
+<span class="c1"># Print the output
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En réexécutant ce programme, quel que soit le nombre d'espaces que vous tapez avant ou après le nom, il supprimera tous les espaces.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En utilisant cette </font></font><code class="language-plaintext highlighter-rouge">title</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">méthode, le nom de l'utilisateur serait mis en majuscules&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Remove whitespace from the str
+</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="nf">strip</span><span class="p">()</span><font></font>
+<font></font>
+<span class="c1"># Capitalize the first letter of each word
+</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="nf">title</span><span class="p">()</span><font></font>
+<font></font>
+<span class="c1"># Print the output
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">À ce stade, vous en avez peut-être assez de taper </font></font><code class="language-plaintext highlighter-rouge">python</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">à plusieurs reprises dans la fenêtre du terminal. Vous pouvez utiliser la flèche vers le haut de votre clavier pour rappeler les commandes de terminal les plus récentes que vous avez effectuées.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Notez que vous pouvez modifier votre code pour être plus efficace :</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Remove whitespace from the str and capitalize the first letter of each word
+</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">.</span><span class="nf">strip</span><span class="p">().</span><span class="nf">title</span><span class="p">()</span><font></font>
+<font></font>
+<span class="c1"># Print the output
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cela crée le même résultat que votre code précédent.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">On pourrait même aller plus loin !</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name, remove whitespace from the str and capitalize the first letter of each word
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">).</span><span class="nf">strip</span><span class="p">().</span><span class="nf">title</span><span class="p">()</span><font></font>
+<font></font>
+<span class="c1"># Print the output
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous pouvez en apprendre davantage sur les chaînes dans la documentation de Python sur</font></font><a href="https://docs.python.org/3/library/stdtypes.html#str"><code class="language-plaintext highlighter-rouge">str</code></a></li>
+</ul>
+
+<a data-id="" id="integers-or-int" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#integers-or-int"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Entiers ou int</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En Python, un entier est appelé </font></font><code class="language-plaintext highlighter-rouge">int</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Dans le monde des mathématiques, nous connaissons les opérateurs +, -, *, / et %. Ce dernier opérateur </font></font><code class="language-plaintext highlighter-rouge">%</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ou opérateur modulo ne vous est peut-être pas très familier.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous n'avez pas besoin d'utiliser la fenêtre de l'éditeur de texte de votre compilateur pour exécuter du code Python. Dans votre terminal, vous pouvez exécuter </font></font><code class="language-plaintext highlighter-rouge">python</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">seul. Une fenêtre de terminal vous sera présentée </font></font><code class="language-plaintext highlighter-rouge">&gt;&gt;&gt;</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Vous pouvez alors exécuter du code interactif en direct. Vous pouvez saisir </font></font><code class="language-plaintext highlighter-rouge">1+1</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, et il exécutera ce calcul. Ce mode ne sera généralement pas utilisé au cours de ce cours.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En ouvrant à nouveau VS Code, nous pouvons saisir du texte </font></font><code class="language-plaintext highlighter-rouge">code calculator.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dans le terminal. Cela créera un nouveau fichier dans lequel nous créerons notre propre calculatrice.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tout d’abord, nous pouvons déclarer quelques variables.</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">2</span><font></font>
+<font></font>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><font></font>
+<font></font>
+<span class="nf">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Naturellement, lorsque nous exécutons, </font></font><code class="language-plaintext highlighter-rouge">python calculator.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">nous obtenons le résultat dans la fenêtre du terminal de </font></font><code class="language-plaintext highlighter-rouge">3</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Nous pouvons rendre cela plus interactif en utilisant la </font></font><code class="language-plaintext highlighter-rouge">input</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction.</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><font></font>
+<font></font>
+<span class="nf">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En exécutant ce programme, nous découvrons que la sortie est incorrecte </font></font><code class="language-plaintext highlighter-rouge">12</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Pourquoi cela pourrait-il être le cas ?</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous avons vu précédemment comment le </font></font><code class="language-plaintext highlighter-rouge">+</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">signe concatène deux chaînes. Étant donné que votre saisie au clavier de votre ordinateur arrive dans le compilateur sous forme de texte, elle est traitée comme une chaîne. Nous devons donc convertir cette saisie d'une chaîne en un entier. Nous pouvons procéder comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<span class="n">z</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="nf">int</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><font></font>
+<font></font>
+<span class="nf">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Le résultat est maintenant correct. L'utilisation de </font></font><code class="language-plaintext highlighter-rouge">int(x)</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">s'appelle « casting », où une valeur est temporairement modifiée d'un type de variable (dans ce cas, une chaîne) à un autre (ici, un entier).</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons encore améliorer notre programme comme suit :</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">))</span><font></font>
+<font></font>
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cela montre que vous pouvez exécuter des fonctions sur des fonctions. La fonction interne est exécutée en premier, puis la fonction externe. La </font></font><code class="language-plaintext highlighter-rouge">input</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction est d'abord exécutée. Puis la </font></font><code class="language-plaintext highlighter-rouge">int</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous pouvez en apprendre davantage dans la documentation de Python </font></font><a href="https://docs.python.org/3/library/functions.html?highlight=float#int"><code class="language-plaintext highlighter-rouge">int</code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></li>
+</ul>
+
+<a data-id="" id="readability-wins" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#readability-wins"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">La lisibilité l'emporte</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Lorsque vous décidez de votre approche pour une tâche de codage, n’oubliez pas que l’on peut raisonnablement avancer des arguments en faveur de nombreuses approches du même problème.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Quelle que soit l'approche que vous adoptez pour une tâche de programmation, n'oubliez pas que votre code doit être lisible. Vous devez utiliser des commentaires pour vous donner, ainsi qu'aux autres, des indices sur ce que fait votre code. De plus, vous devez créer du code de manière lisible.</font></font></li>
+</ul>
+
+<a data-id="" id="float-basics" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#float-basics"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Notions de base sur le flotteur</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Une valeur à virgule flottante est un nombre réel contenant un point décimal, tel que </font></font><code class="language-plaintext highlighter-rouge">0.52</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous pouvez modifier votre code pour prendre en charge les flottants comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">))</span><font></font>
+<font></font>
+<span class="nf">print</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cette modification permet à votre utilisateur de saisir </font></font><code class="language-plaintext highlighter-rouge">1.2</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">et </font></font><code class="language-plaintext highlighter-rouge">3.4</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">de présenter un total de </font></font><code class="language-plaintext highlighter-rouge">4.6</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Imaginons cependant que vous souhaitiez arrondir le total à l'entier le plus proche. En consultant la documentation Python pour </font></font><code class="language-plaintext highlighter-rouge">round</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, vous verrez que les arguments disponibles sont </font></font><code class="language-plaintext highlighter-rouge">round(number[n, ndigits])</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Ces crochets indiquent que quelque chose d'facultatif peut être spécifié par le programmeur. Par conséquent, vous pouvez faire </font></font><code class="language-plaintext highlighter-rouge">round(n)</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pour arrondir un chiffre à son entier le plus proche. Alternativement, vous pouvez coder comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Get the user's input
+</span><span class="n">x</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">))</span><font></font>
+<font></font>
+<span class="c1"># Create a rounded result
+</span><span class="n">z</span> <span class="o">=</span> <span class="nf">round</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Print the result
+</span><span class="nf">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">La sortie sera arrondie à l'entier le plus proche.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Et si nous voulions formater la sortie de nombres longs ? Par exemple, au lieu de voir </font></font><code class="language-plaintext highlighter-rouge">1000</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, vous souhaiterez peut-être voir </font></font><code class="language-plaintext highlighter-rouge">1,000</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Vous pouvez modifier votre code comme suit :</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Get the user's input
+</span><span class="n">x</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">))</span><font></font>
+<font></font>
+<span class="c1"># Create a rounded result
+</span><span class="n">z</span> <span class="o">=</span> <span class="nf">round</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Print the formatted result
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">z</span><span class="si">:</span><span class="p">,</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Bien que cela soit assez cryptique, cela </font></font><code class="language-plaintext highlighter-rouge">print(f"{z:,}")</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">crée un scénario dans lequel la sortie </font></font><code class="language-plaintext highlighter-rouge">z</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">inclura des virgules où le résultat pourrait ressembler à </font></font><code class="language-plaintext highlighter-rouge">1,000</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">ou </font></font><code class="language-plaintext highlighter-rouge">2,500</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+  </li>
+</ul>
+
+<a data-id="" id="more-on-floats" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#more-on-floats"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En savoir plus sur les flotteurs</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Comment arrondir les valeurs à virgule flottante ? Tout d'abord, modifiez votre code comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Get the user's input
+</span><span class="n">x</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">))</span><font></font>
+<font></font>
+<span class="c1"># Calculate the result
+</span><span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span><font></font>
+<font></font>
+<span class="c1"># Print the result
+</span><span class="nf">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En entrant </font></font><code class="language-plaintext highlighter-rouge">2</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">x et </font></font><code class="language-plaintext highlighter-rouge">3</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">y, le résultat z est </font></font><code class="language-plaintext highlighter-rouge">0.6666666666</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, allant apparemment vers l'infini comme on pourrait s'y attendre.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Imaginons que nous souhaitons arrondir ce nombre à l'entier inférieur. Nous pourrions modifier notre code comme suit :</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Get the user's input
+</span><span class="n">x</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">))</span><font></font>
+<font></font>
+<span class="c1"># Calculate the result and round
+</span><span class="n">z</span> <span class="o">=</span> <span class="nf">round</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Print the result
+</span><span class="nf">print</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Comme on pourrait s’y attendre, cela arrondira le résultat aux deux décimales les plus proches.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pourrions également utiliser </font></font><code class="language-plaintext highlighter-rouge">fstring</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">pour formater la sortie comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Get the user's input
+</span><span class="n">x</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s y? </span><span class="sh">"</span><span class="p">))</span><font></font>
+<font></font>
+<span class="c1"># Calculate the result
+</span><span class="n">z</span> <span class="o">=</span> <span class="n">x</span> <span class="o">/</span> <span class="n">y</span><font></font>
+<font></font>
+<span class="c1"># Print the result
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">z</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ce </font></font><code class="language-plaintext highlighter-rouge">fstring</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">code cryptique affiche le même résultat que notre stratégie d’arrondi précédente.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous pouvez en apprendre davantage dans la documentation Python de </font></font><a href="https://docs.python.org/3/library/functions.html?highlight=float#float"><code class="language-plaintext highlighter-rouge">float</code></a><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+  </li>
+</ul>
+
+<a data-id="" id="def" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#def"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Déf</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ne serait-il pas agréable de créer nos propres fonctions ?</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Reprenons notre code final en </font></font><code class="language-plaintext highlighter-rouge">hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">le tapant </font></font><code class="language-plaintext highlighter-rouge">code hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dans la fenêtre du terminal. Votre code de départ devrait ressembler à ceci&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Ask the user for their name, remove whitespace from the str and capitalize the first letter of each word
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">).</span><span class="nf">strip</span><span class="p">().</span><span class="nf">title</span><span class="p">()</span><font></font>
+<font></font>
+<span class="c1"># Print the output
+</span><span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons améliorer notre code pour créer notre propre fonction spéciale qui dit « bonjour » pour nous&nbsp;!</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En effaçant tout notre code dans notre éditeur de texte, recommençons à zéro :</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">hello</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En essayant d'exécuter ce code, votre compilateur renverra une erreur. Après tout, il n'existe aucune fonction définie pour </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons créer notre propre fonction appelée </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">hello</span><span class="p">():</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello</span><span class="sh">"</span><span class="p">)</span><font></font>
+<font></font>
+<font></font>
+<span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">hello</span><span class="p">()</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Notez que tout ce qui se trouve en dessous </font></font><code class="language-plaintext highlighter-rouge">def hello()</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">est indenté. Python est un langage indenté. Il utilise l'indentation pour comprendre ce qui fait partie de la fonction ci-dessus. Par conséquent, tout ce qui se trouve dans la </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction doit être indenté. Lorsqu'un élément n'est pas indenté, il le traite comme s'il n'était pas à l'intérieur de la </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction. En l'exécutant </font></font><code class="language-plaintext highlighter-rouge">python hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dans la fenêtre du terminal, vous verrez que votre sortie n'est pas exactement comme vous le souhaiteriez.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons encore améliorer notre code&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1"># Create our own function
+</span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">to</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">to</span><span class="p">)</span><font></font>
+<font></font>
+<font></font>
+<span class="c1"># Output using our own function
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Ici, dans les premières lignes, vous créez votre </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction. Cette fois, cependant, vous dites au compilateur que cette fonction prend un seul paramètre : une variable appelée </font></font><code class="language-plaintext highlighter-rouge">to</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Par conséquent, lorsque vous appelez </font></font><code class="language-plaintext highlighter-rouge">hello(name)</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">l'ordinateur, elle passe </font></font><code class="language-plaintext highlighter-rouge">name</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">à la </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction sous la forme </font></font><code class="language-plaintext highlighter-rouge">to</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. C'est ainsi que nous passons des valeurs aux fonctions. Très utile ! En exécutant </font></font><code class="language-plaintext highlighter-rouge">python hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">dans la fenêtre du terminal, vous verrez que la sortie est beaucoup plus proche de notre idéal présenté plus tôt dans ce cours.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nous pouvons modifier notre code pour ajouter une valeur par défaut à </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Create our own function
+</span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="sh">"</span><span class="s">world</span><span class="sh">"</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">to</span><span class="p">)</span><font></font>
+<font></font>
+<font></font>
+<span class="c1"># Output using our own function
+</span><span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+<span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><font></font>
+<font></font>
+<span class="c1"># Output without passing the expected arguments
+</span><span class="nf">hello</span><span class="p">()</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Testez votre code vous-même. Remarquez que le premier </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">se comportera comme vous l'attendiez, et le second hello, auquel aucune valeur n'est transmise, affichera par défaut </font></font><code class="language-plaintext highlighter-rouge">hello, world</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Il n'est pas nécessaire que notre fonction soit au début de notre programme. Nous pouvons la déplacer vers le bas, mais nous devons indiquer au compilateur que nous avons une </font></font><code class="language-plaintext highlighter-rouge">main</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction et une fonction séparée </font></font><code class="language-plaintext highlighter-rouge">hello</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">.</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span><font></font>
+<font></font>
+    <span class="c1"># Output using our own function
+</span>    <span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><font></font>
+<font></font>
+    <span class="c1"># Output without passing the expected arguments
+</span>    <span class="nf">hello</span><span class="p">()</span><font></font>
+<font></font>
+<font></font>
+<span class="c1"># Create our own function
+</span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="sh">"</span><span class="s">world</span><span class="sh">"</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">to</span><span class="p">)</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cependant, cela seul créera une sorte d'erreur. Si nous exécutons </font></font><code class="language-plaintext highlighter-rouge">python hello.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, rien ne se passe ! La raison en est que rien dans ce code n'appelle réellement la </font></font><code class="language-plaintext highlighter-rouge">main</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction et ne donne vie à notre programme.</font></font></p>
+  </li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">La très petite modification suivante appellera la </font></font><code class="language-plaintext highlighter-rouge">main</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">fonction et rétablira le fonctionnement de notre programme&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span><font></font>
+<font></font>
+    <span class="c1"># Output using our own function
+</span>    <span class="n">name</span> <span class="o">=</span> <span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s your name? </span><span class="sh">"</span><span class="p">)</span>
+    <span class="nf">hello</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><font></font>
+<font></font>
+    <span class="c1"># Output without passing the expected arguments
+</span>    <span class="nf">hello</span><span class="p">()</span><font></font>
+<font></font>
+<font></font>
+<span class="c1"># Create our own function
+</span><span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">to</span><span class="o">=</span><span class="sh">"</span><span class="s">world</span><span class="sh">"</span><span class="p">):</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">hello,</span><span class="sh">"</span><span class="p">,</span> <span class="n">to</span><span class="p">)</span><font></font>
+<font></font>
+<font></font>
+<span class="nf">main</span><span class="p">()</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<a data-id="" id="returning-values" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#returning-values"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valeurs de retour</font></font></a></h2>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Vous pouvez imaginer de nombreux scénarios dans lesquels vous ne souhaitez pas seulement qu'une fonction exécute une action, mais qu'elle renvoie également une valeur à la fonction principale. Par exemple, plutôt que d'imprimer simplement le calcul de </font></font><code class="language-plaintext highlighter-rouge">x + y</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">, vous pouvez souhaiter qu'une fonction renvoie la valeur de ce calcul à une autre partie de votre programme. Ce « renvoi » d'une valeur est appelé une </font></font><code class="language-plaintext highlighter-rouge">return</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">valeur.</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Revenons à notre </font></font><code class="language-plaintext highlighter-rouge">calculator.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">code en tapant </font></font><code class="language-plaintext highlighter-rouge">code calculator.py</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Effacez tout le code qui s'y trouve. Retravaillez le code comme suit&nbsp;:</font></font></p>
+
+    <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="nf">input</span><span class="p">(</span><span class="sh">"</span><span class="s">What</span><span class="sh">'</span><span class="s">s x? </span><span class="sh">"</span><span class="p">))</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">x squared is</span><span class="sh">"</span><span class="p">,</span> <span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><font></font>
+<font></font>
+<font></font>
+<span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">n</span><font></font>
+<font></font>
+<font></font>
+<span class="nf">main</span><span class="p">()</span>
+</code></pre></div>    </div>
+    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En fait, </font></font><code class="language-plaintext highlighter-rouge">x</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">est passé à </font></font><code class="language-plaintext highlighter-rouge">square</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">. Ensuite, le calcul de </font></font><code class="language-plaintext highlighter-rouge">x * x</code><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">est renvoyé à la fonction principale.</font></font></p>
+  </li>
+</ul>
+
+<a data-id="" id="summing-up" style="top: 0px;"></a><h2><a data-id="" href="https://cs50.harvard.edu/python/2022/notes/0/#summing-up"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">En résumé</font></font></a></h2>
+<p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Au cours de cette seule leçon, vous avez acquis des compétences que vous utiliserez à maintes reprises dans vos propres programmes. Vous avez appris…</font></font></p>
+<ul class="fa-ul">
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Créer vos premiers programmes en Python ;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fonctions;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Insectes;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Variables;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Commentaires;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Pseudo-code;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Cordes;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Paramètres;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Chaînes formatées&nbsp;;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Entiers;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Principes de lisibilité ;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Flotteurs;</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Créer vos propres fonctions ; et</font></font></li>
+  <li data-marker="*"><span class="fa-li"><i class="fas fa-square"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Valeurs de retour.</font></font></li>
+</ul>
+
+
+                </main>
+
+            </div>
+
+        </div>
+
+        
+ 
+        <script src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/page.js.téléchargement"></script><div id="goog-gt-tt" class="VIpgJd-yAWNEb-L7lbkb skiptranslate" style="border-radius: 12px; margin: 0 0 0 -23px; padding: 0; font-family: &#39;Google Sans&#39;, Arial, sans-serif;" data-id=""><div id="goog-gt-vt" class="VIpgJd-yAWNEb-hvhgNd"><div class=" VIpgJd-yAWNEb-hvhgNd-l4eHX-i3jM8c"><img src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/24px.svg" width="24" height="24" alt=""></div><div class=" VIpgJd-yAWNEb-hvhgNd-k77Iif-i3jM8c"><div class="VIpgJd-yAWNEb-hvhgNd-IuizWc" dir="ltr">Texte d'origine</div><div id="goog-gt-original-text" class="VIpgJd-yAWNEb-nVMfcd-fmcmS VIpgJd-yAWNEb-hvhgNd-axAV1"></div></div><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid ltr"><div class="VIpgJd-yAWNEb-hvhgNd-N7Eqid-B7I4Od ltr" dir="ltr"><div class="VIpgJd-yAWNEb-hvhgNd-UTujCb">Évaluez cette traduction</div><div class="VIpgJd-yAWNEb-hvhgNd-eO9mKe">Votre avis nous aidera à améliorer Google&nbsp;Traduction</div></div><div class="VIpgJd-yAWNEb-hvhgNd-xgov5 ltr"><button id="goog-gt-thumbUpButton" type="button" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" title="Bonne traduction" aria-label="Bonne traduction" aria-pressed="false"><span id="goog-gt-thumbUpIcon"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7H2v13h16c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM7 18H4V9h3v9zm14-7l-3 7H9V8l4.34-4.34L12 9h9v2z"></path></svg></span><span id="goog-gt-thumbUpIconFilled"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M21 7h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 0S7.08 6.85 7 7v13h11c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73V9c0-1.1-.9-2-2-2zM5 7H1v13h4V7z"></path></svg></span></button><button id="goog-gt-thumbDownButton" type="button" class="VIpgJd-yAWNEb-hvhgNd-bgm6sf" title="Mauvaise traduction" aria-label="Mauvaise traduction" aria-pressed="false"><span id="goog-gt-thumbDownIcon"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7h5V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zM17 6h3v9h-3V6zM3 13l3-7h9v10l-4.34 4.34L12 15H3v-2z"></path></svg></span><span id="goog-gt-thumbDownIconFilled"><svg width="24" height="24" viewBox="0 0 24 24" focusable="false" class="VIpgJd-yAWNEb-hvhgNd-THI6Vb NMm5M"><path d="M3 17h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 24s7.09-6.85 7.17-7V4H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2zm16 0h4V4h-4v13z"></path></svg></span></button></div></div><div id="goog-gt-votingHiddenPane" class="VIpgJd-yAWNEb-hvhgNd-aXYTce"><form id="goog-gt-votingForm" action="https://translate.googleapis.com/translate_voting?client=te_lib" method="post" target="votingFrame" class="VIpgJd-yAWNEb-hvhgNd-aXYTce"><input type="text" name="sl" id="goog-gt-votingInputSrcLang"><input type="text" name="tl" id="goog-gt-votingInputTrgLang"><input type="text" name="query" id="goog-gt-votingInputSrcText"><input type="text" name="gtrans" id="goog-gt-votingInputTrgText"><input type="text" name="vote" id="goog-gt-votingInputVote"></form><iframe name="votingFrame" frameborder="0" src="./Cours 0 - Introduction à la programmation avec Python de CS50_files/saved_resource.html"></iframe></div></div></div>
+
+    
+
+
+</body></html>

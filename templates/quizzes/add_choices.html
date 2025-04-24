@@ -1,0 +1,54 @@
+{# templates/quizzes/add_choices.html #}
+{% extends 'quizzes/base_quiz.html' %}
+
+{% block quiz_title %}Ajouter des Choix{% endblock %}
+
+{% block quiz_content %}
+<div class="add-choices-container">
+    <h1>Ajouter des Choix</h1>
+    <p>Question: {{ question.text }}</p>
+    <p>Quiz: {{ question.quiz.title }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        {{ formset.management_form }}
+        
+        <div class="choices-formset">
+            {% for form in formset %}
+                <div class="choice-form">
+                    <div class="form-row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="{{ form.text.id_for_label }}">Texte du choix</label>
+                                {{ form.text }}
+                                {% if form.text.errors %}
+                                    <div class="error-feedback">{{ form.text.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check mt-4">
+                                {{ form.is_correct }}
+                                <label class="form-check-label" for="{{ form.is_correct.id_for_label }}">
+                                    Réponse correcte
+                                </label>
+                                {% if form.is_correct.errors %}
+                                    <div class="error-feedback">{{ form.is_correct.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if form.instance.pk %}{{ form.DELETE }}{% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Enregistrer les choix</button>
+            <a href="{% url 'quizzes:quiz_detail' question.quiz.id %}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

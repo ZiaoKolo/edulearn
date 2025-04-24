@@ -1,0 +1,53 @@
+{# templates/quizzes/edit_quiz.html #}
+{% extends 'quizzes/base_quiz.html' %}
+
+{% block quiz_title %}Modifier le Quiz{% endblock %}
+
+{% block quiz_content %}
+<div class="edit-quiz-container">
+    <h1>Modifier le Quiz: {{ quiz.title }}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_title">Titre du quiz</label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="error-feedback">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_chapter">Chapitre</label>
+            {{ form.chapter }}
+            {% if form.chapter.errors %}
+                <div class="error-feedback">{{ form.chapter.errors }}</div>
+            {% endif %}
+            <small class="form-text text-muted">Si non spécifié, le quiz sera associé à l'ensemble du cours.</small>
+        </div>
+        
+        <div class="form-group">
+            <label for="id_description">Description</label>
+            {{ form.description }}
+            {% if form.description.errors %}
+                <div class="error-feedback">{{ form.description.errors }}</div>
+            {% endif %}
+        </div>
+        
+        <div class="form-group">
+            <label for="id_time_limit">Temps limite (minutes)</label>
+            {{ form.time_limit }}
+            {% if form.time_limit.errors %}
+                <div class="error-feedback">{{ form.time_limit.errors }}</div>
+            {% endif %}
+            <small class="form-text text-muted">Laissez vide pour aucune limite de temps.</small>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-warning">Mettre à jour le quiz</button>
+            <a href="{% url 'quizzes:quiz_detail' quiz.id %}" class="btn btn-secondary">Annuler</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

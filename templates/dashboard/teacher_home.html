@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+
+{% block title %}Tableau de bord enseignant{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4">Tableau de bord enseignant</h1>
+    
+    <div class="row">
+                     <!-- Affichage des notifications pour l'enseignant -->
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="card-title mb-0">Messages et Notifications</h5>
+                            <a href="{% url 'dashboard:notifications' %}" class="btn btn-sm btn-outline-primary">Voir tout</a>
+                        </div>
+                    <div class="list-group">
+                         {% for notification in notifications %}
+                        <div class="list-group-item {% if not notification.read %}list-group-item-primary{% endif %}">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ notification.title }}</h6>
+                                <small>{{ notification.created_at|date:"d/m/Y H:i" }}</small>
+                        </div>
+                        <p class="mb-1">{{ notification.message|truncatechars:150 }}</p>
+                        {% if not notification.read %}
+                        <div class="d-flex justify-content-end">
+                            <a href="{% url 'dashboard:mark_notification_read' notification.id %}" class="btn btn-sm btn-outline-secondary mt-2">Marquer comme lu</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% empty %}
+                    <p class="text-muted text-center py-3">Aucun message ou notification</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        <!-- Statistics Summary -->
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Statistiques</h5>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>Cours enseignés</div>
+                        <div class="h5 mb-0">{{ teaching_courses.count }}</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>Étudiants inscrits</div>
+                        <div class="h5 mb-0">{{ student_count }}</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>Quiz créés</div>
+                        <div class="h5 mb-0">{{ quiz_count }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Course list -->
+        <div class="col-md-8 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Mes cours</h5>
+                    <div class="list-group">
+                        {% for course in teaching_courses %}
+                        <a href="{% url 'dashboard:teacher_course_analytics' course.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            {{ course.title }}
+                            <span class="badge bg-primary rounded-pill">{{ course.students.count }} étudiants</span>
+                        </a>
+                        {% empty %}
+                        <div class="text-center py-3">
+                            <p>Vous n'enseignez aucun cours pour le moment.</p>
+                            <a href="{% url 'courses:create_course' %}" class="btn btn-primary">Créer un cours</a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Quiz section -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="card-title mb-0">Mes quiz</h5>
+                        <a href="{% url 'quizzes:teacher_quizzes' %}" class="btn btn-sm btn-outline-primary">Voir tous</a>
+                    </div>
+                    <div class="list-group">
+                        {% for quiz in recent_quizzes %}
+                        <a href="{% url 'quizzes:quiz_detail' quiz.id %}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ quiz.title }}</h6>
+                                <small>{{ quiz.course.title }}</small>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">{{ quiz.questions.count }} questions</small>
+                                <div>
+                                    <a href="{% url 'quizzes:edit_quiz' quiz.id %}" class="btn btn-sm btn-outline-secondary me-1">Éditer</a>
+                                    <a href="{% url 'quizzes:analytics_quiz' quiz.id %}" class="btn btn-sm btn-outline-info">Résultats</a>
+                                </div>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <div class="text-center py-3">
+                            <p>Vous n'avez créé aucun quiz pour le moment.</p>
+                            {% if teaching_courses %}
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="createQuizDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Créer un quiz
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="createQuizDropdown">
+                                    {% for course in teaching_courses %}
+                                    <li><a class="dropdown-item" href="{% url 'quizzes:create_quiz' course.id %}">{{ course.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% else %}
+                            <p>Créez d'abord un cours pour pouvoir y ajouter des quiz</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Most active courses -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Cours les plus actifs</h5>
+                    <div class="list-group">
+                        {% for course in courses_with_activity %}
+                        <a href="{% url 'dashboard:teacher_course_analytics' course.id %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                            {{ course.title }}
+                            <span class="badge bg-info rounded-pill">{{ course.progress_count }} activités</span>
+                        </a>
+                        {% empty %}
+                        <p class="text-muted text-center py-3">Aucune activité récente</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Recent quiz results -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Résultats de quiz récents</h5>
+                    <div class="list-group">
+                        {% for result in recent_quiz_results %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ result.quiz.title }}</h6>
+                                <small>{{ result.completed_at|date:"d/m/Y H:i" }}</small>
+                            </div>
+                            <div class="d-flex w-100 justify-content-between align-items-center">
+                                <p class="mb-1">{{ result.student.username }}</p>
+                                <h6 class="mb-0 {% if result.score >= result.max_score|floatformat:0|add:"-1" %}text-success{% elif result.score < result.max_score|floatformat:0|add:"-3" %}text-danger{% else %}text-warning{% endif %}">
+                                    {{ result.score|floatformat:1 }}/{{ result.max_score|floatformat:0 }}
+                                </h6>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted text-center py-3">Aucun résultat de quiz récent</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent completions -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">Cours récemment terminés</h5>
+                    <div class="list-group">
+                        {% for completion in recent_completions %}
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">{{ completion.course.title }}</h6>
+                                <small>{{ completion.completion_date|date:"d/m/Y" }}</small>
+                            </div>
+                            <p class="mb-1">Complété par {{ completion.student.username }}</p>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted text-center py-3">Aucun cours terminé récemment</p>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
